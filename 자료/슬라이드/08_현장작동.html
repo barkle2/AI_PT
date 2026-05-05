@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 08 — 현장 작동 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    /* 좌측 액센트 바 (시리즈 동일) */
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    /* 미세 그리드 패턴 (시리즈 동일) */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 시리즈 동일 좌표 */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 헤더 — 시리즈 동일 톤 */
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(50 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(14 * var(--u));
+    }
+
+    .subtitle {
+      font-size: calc(20 * var(--u));
+      font-weight: 500;
+      color: #e2e8f0;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      margin-bottom: calc(28 * var(--u));
+    }
+
+    /* ───────── 본문: 좌-우 분할 그리드 ───────── */
+    .pair-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 38% 1fr;
+      grid-template-rows: 1fr;
+      gap: calc(34 * var(--u));
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    /* ───────── 좌측 패널 — 내러티브 ───────── */
+    .narrative-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #7dd3fc;
+      border-radius: calc(8 * var(--u));
+      padding: calc(34 * var(--u)) calc(32 * var(--u));
+      box-shadow: inset calc(2 * var(--u)) 0 calc(18 * var(--u)) rgba(125, 211, 252, 0.20);
+      display: flex;
+      flex-direction: column;
+      gap: calc(26 * var(--u));
+    }
+
+    .narrative-eyebrow {
+      font-size: calc(13 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.30em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+    }
+
+    .narrative-headline {
+      font-size: calc(28 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.012em;
+      line-height: 1.3;
+    }
+
+    .arg-list {
+      display: flex;
+      flex-direction: column;
+      gap: calc(20 * var(--u));
+      flex: 1;
+      justify-content: space-evenly;
+    }
+
+    /* ───────── 좌측 하단 — Take-away ───────── */
+    .take-away {
+      position: relative;
+      padding: calc(16 * var(--u)) calc(20 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.10) 0%, rgba(125, 211, 252, 0.18) 100%);
+      border: 1px solid rgba(125, 211, 252, 0.45);
+      border-radius: calc(8 * var(--u));
+      box-shadow:
+        0 0 calc(24 * var(--u)) rgba(56, 189, 248, 0.22),
+        inset 0 0 calc(16 * var(--u)) rgba(125, 211, 252, 0.08);
+      font-size: calc(19 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: -0.005em;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .take-away .arrow {
+      display: inline-block;
+      margin-right: calc(8 * var(--u));
+      color: #38bdf8;
+      font-weight: 800;
+      text-shadow: 0 0 calc(10 * var(--u)) rgba(56, 189, 248, 0.45);
+    }
+
+    .take-away .accent {
+      color: #7dd3fc;
+      font-weight: 800;
+    }
+
+    .arg-item {
+      display: grid;
+      grid-template-columns: calc(54 * var(--u)) 1fr;
+      column-gap: calc(18 * var(--u));
+      align-items: start;
+    }
+
+    .arg-num {
+      width: calc(54 * var(--u));
+      height: calc(54 * var(--u));
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(125, 211, 252, 0.10) 100%);
+      border: 1px solid rgba(125, 211, 252, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 calc(14 * var(--u)) rgba(125, 211, 252, 0.18);
+    }
+
+    .arg-num svg {
+      width: calc(28 * var(--u));
+      height: calc(28 * var(--u));
+    }
+
+    .arg-body {
+      display: flex;
+      flex-direction: column;
+      gap: calc(4 * var(--u));
+      padding-top: calc(2 * var(--u));
+    }
+
+    .arg-title {
+      font-size: calc(22 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .arg-desc {
+      font-size: calc(16 * var(--u));
+      font-weight: 500;
+      color: #cbd5e1;
+      letter-spacing: 0.005em;
+      line-height: 1.5;
+    }
+
+    /* ───────── 우측 — 증거 스택 ───────── */
+    .evidence-stack {
+      display: flex;
+      flex-direction: column;
+      gap: calc(18 * var(--u));
+      min-height: 0;
+    }
+
+    .ev-block {
+      position: relative;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(20 * var(--u)) calc(28 * var(--u));
+      box-shadow: inset calc(2 * var(--u)) 0 calc(16 * var(--u)) rgba(56, 189, 248, 0.16);
+    }
+
+    .ev-label {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+      font-size: calc(13 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.30em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      margin-bottom: calc(12 * var(--u));
+    }
+
+    .ev-label::before {
+      content: '▶';
+      font-size: calc(10 * var(--u));
+      color: #38bdf8;
+      letter-spacing: 0;
+      transform: translateY(calc(-1 * var(--u)));
+    }
+
+    /* 대표 사례 블록 */
+    .case-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: calc(16 * var(--u));
+      margin-bottom: calc(8 * var(--u));
+    }
+
+    .case-name {
+      font-size: calc(22 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.012em;
+      line-height: 1.25;
+    }
+
+    .case-year {
+      font-size: calc(14 * var(--u));
+      font-weight: 700;
+      color: #7dd3fc;
+      letter-spacing: 0.10em;
+      flex-shrink: 0;
+      padding: calc(3 * var(--u)) calc(10 * var(--u));
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      border-radius: calc(999 * var(--u));
+      background: rgba(125, 211, 252, 0.06);
+    }
+
+    .case-summary {
+      font-size: calc(17 * var(--u));
+      font-weight: 500;
+      color: #cbd5e1;
+      letter-spacing: 0.005em;
+      line-height: 1.5;
+    }
+
+    /* KPI 3종 */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: calc(14 * var(--u));
+    }
+
+    .kpi-cell {
+      text-align: center;
+      padding: calc(14 * var(--u)) calc(8 * var(--u)) calc(12 * var(--u));
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: calc(8 * var(--u));
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    .kpi-cell.center {
+      border-color: rgba(125, 211, 252, 0.45);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.10) 0%, rgba(125, 211, 252, 0.16) 100%);
+      box-shadow: 0 0 calc(24 * var(--u)) rgba(56, 189, 248, 0.20);
+    }
+
+    .kpi-num {
+      font-size: calc(32 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      text-shadow: 0 0 calc(16 * var(--u)) rgba(125, 211, 252, 0.30);
+    }
+
+    .kpi-cell.center .kpi-num {
+      color: #f8fafc;
+      font-size: calc(36 * var(--u));
+    }
+
+    .kpi-unit {
+      font-size: calc(15 * var(--u));
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.01em;
+      margin-left: calc(4 * var(--u));
+    }
+
+    .kpi-cell.center .kpi-unit {
+      color: #cbd5e1;
+    }
+
+    .kpi-caption {
+      margin-top: calc(6 * var(--u));
+      font-size: calc(13 * var(--u));
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.06em;
+    }
+
+    /* 현장의 목소리 */
+    .quote-list {
+      display: flex;
+      flex-direction: column;
+      gap: calc(12 * var(--u));
+    }
+
+    .quote-item {
+      position: relative;
+      padding: calc(8 * var(--u)) calc(14 * var(--u)) calc(8 * var(--u)) calc(28 * var(--u));
+      border-left: calc(2 * var(--u)) solid rgba(125, 211, 252, 0.45);
+    }
+
+    .quote-item::before {
+      content: '\201C';
+      position: absolute;
+      left: calc(8 * var(--u));
+      top: calc(-4 * var(--u));
+      font-size: calc(28 * var(--u));
+      font-weight: 800;
+      color: #7dd3fc;
+      line-height: 1;
+    }
+
+    .quote-text {
+      font-size: calc(17 * var(--u));
+      font-weight: 500;
+      color: #e2e8f0;
+      letter-spacing: 0.005em;
+      line-height: 1.5;
+    }
+
+    .quote-source {
+      margin-top: calc(4 * var(--u));
+      font-size: calc(13 * var(--u));
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">02. AX 추진 준비 상황</div>
+        <div class="rule"></div>
+        <h1 class="main-title">맞춤형 통합서비스는 현장에서도 작동합니다</h1>
+
+        <div class="pair-grid">
+          <!-- 좌측: 내러티브 -->
+          <aside class="narrative-card">
+            <div class="narrative-eyebrow">Why it works</div>
+            <h2 class="narrative-headline">왜 &ldquo;작동한다&rdquo;고<br>말할 수 있는가</h2>
+
+            <div class="arg-list">
+              <!-- ① 수요 -->
+              <div class="arg-item">
+                <div class="arg-num">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="9" cy="9" r="3" stroke="#7dd3fc" stroke-width="1.5" />
+                    <path d="M3.5,18 C3.5,14.5 6,12.5 9,12.5 C12,12.5 14.5,14.5 14.5,18" stroke="#7dd3fc"
+                      stroke-width="1.5" fill="none" stroke-linecap="round" />
+                    <circle cx="16" cy="10" r="2.4" stroke="#7dd3fc" stroke-width="1.4" opacity="0.7" />
+                    <path d="M14,18 C14,15.5 16,14 18,14 C19.5,14 21,15 21,18" stroke="#7dd3fc" stroke-width="1.4"
+                      fill="none" stroke-linecap="round" opacity="0.7" />
+                  </svg>
+                </div>
+                <div class="arg-body">
+                  <div class="arg-title">4,755명의 구직자 + 2,917개 기업이 참여</div>
+                  <div class="arg-desc">'25년 1~10월 기준</div>
+                </div>
+              </div>
+
+              <!-- ② 사례 -->
+              <div class="arg-item">
+                <div class="arg-num">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12,3 L14.4,9 L21,9.5 L16,13.6 L17.6,20 L12,16.5 L6.4,20 L8,13.6 L3,9.5 L9.6,9 Z"
+                      stroke="#7dd3fc" stroke-width="1.5" fill="none" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div class="arg-body">
+                  <div class="arg-title">매년 새로운 우수사례 발굴</div>
+                  <div class="arg-desc">맞춤형 고용서비스 성과공유회 개최('25.11.26.)</div>
+                </div>
+              </div>
+
+              <!-- ③ 사이클 -->
+              <div class="arg-item">
+                <div class="arg-num">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5,12 A7,7 0 0,1 17.5,7.5" stroke="#7dd3fc" stroke-width="1.6" fill="none"
+                      stroke-linecap="round" />
+                    <path d="M18,4.5 L18,8 L14.5,8" stroke="#7dd3fc" stroke-width="1.6" fill="none"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M19,12 A7,7 0 0,1 6.5,16.5" stroke="#7dd3fc" stroke-width="1.6" fill="none"
+                      stroke-linecap="round" />
+                    <path d="M6,19.5 L6,16 L9.5,16" stroke="#7dd3fc" stroke-width="1.6" fill="none"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div class="arg-body">
+                  <div class="arg-title">현장의 일하는 방식이 바뀌고 있다.</div>
+                  <div class="arg-desc">자체 학습조직 구성, 대내외 협업TF 운영, 지역 특성 반영</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Take-away — 슬라이드 결론 -->
+            <div class="take-away">
+              <span class="arrow">→</span><span class="accent">현장에서 작동하는 서비스</span>, 이제 AI로 확장합니다
+            </div>
+          </aside>
+
+          <!-- 우측: 증거 스택 -->
+          <section class="evidence-stack">
+
+            <!-- 대표 사례 -->
+            <div class="ev-block">
+              <div class="ev-label">대표 사례 1</div>
+              <div class="case-head">
+                <span class="case-name">결혼이민자에서 당당한 여성가장으로, 한국에 희망의 뿌리를 내리다</span>
+                <span class="case-year">구직자 2025</span>
+              </div>
+              <div class="case-summary">
+                - 배우자 사별 후 상실·불안 상태의 결혼이민여성에게 심리안정지원, 임대주택 아이돌봄서비스, <br> &nbsp;&nbsp; '의료통역 실습 → 맞춤형 알선 → 통번역사 취업' 단계별
+                취업지원 까지 ONE-STEP 지원
+              </div>
+
+              <div class="ev-label">대표 사례 2</div>
+              <div class="case-head">
+                <span class="case-name">제이원글로벌(주)의 마법 같은 도약이야기</span>
+                <span class="case-year">기업 2024</span>
+              </div>
+              <div class="case-summary">
+                - ①마이스터고와 연계한 채용지원, ②자율형공장 도입 지원, ③위험성평가
+                인정사업장 선정 지원,<br> &nbsp;&nbsp;④벤처기업 홍보영상 제작 지원, ⑤신입사업 온보딩교육 참여, ⑥정부지원금 연계 등을 통해<br> &nbsp;&nbsp;설립 1년 미만
+                기업으로 청년 채용이 어려웠던 기업이 1년간 18명을
+                채용하고, 신사옥으로 이전
+              </div>
+            </div>
+
+            <!-- 현장의 목소리 -->
+            <div class="ev-block">
+              <div class="ev-label">현장의 목소리</div>
+              <div class="quote-list">
+                <div class="quote-item">
+                  <div class="quote-text">이번 구도패 참여를 통해 저는 스스로를 다시 발견할 수 있었고, 결국 취업에도 성공할 수 있었습니다.
+                    저 혼자서는 힘들다는 현실을 인정하고 도움을 요청했을 때 많은 분들이 도와주셨습니다.
+                    저와 같은 상황에 있는 분들이 구도패를 통해 희망을 놓치지 않기를 바랍니다.</div>
+                  <div class="quote-source">— 구직자도약보장패키지 수요자 (2025 대상 수상사례)</div>
+                </div>
+                <div class="quote-item">
+                  <div class="quote-text">담당주무관이 우리기업 상황을 분석하고
+                    필요한 기업지원 서비스를 통합 제공해 주셔서 고용센터가 친숙하게 느껴집니다.
+                    고용노동부 사업에 참여하며 중소벤처기업진흥공단, 인력공단, 상공회의소 등 적극적으로 사업연계 기회를 마련해 준 서울남부고용센터에 감사드립니다.</div>
+                  <div class="quote-source">— 기업지원종합서비스 참여기업 (2025 대상 수상사례)</div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">08</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

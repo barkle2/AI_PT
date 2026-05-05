@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 07 — 핵심 서비스 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    /* 좌측 액센트 바 (시리즈 동일) */
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    /* 미세 그리드 패턴 (시리즈 동일) */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 시리즈 동일 좌표 */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 헤더 — 시리즈 동일 톤 */
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(50 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(14 * var(--u));
+    }
+
+    /* 부제 — 슬라이드 6 톤 */
+    .subtitle {
+      font-size: calc(20 * var(--u));
+      font-weight: 500;
+      color: #e2e8f0;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      margin-bottom: calc(22 * var(--u));
+    }
+
+    /* ───────────── 상단 OVERVIEW 띠 ───────────── */
+    .overview-band {
+      display: flex;
+      align-items: center;
+      gap: calc(28 * var(--u));
+      padding: calc(20 * var(--u)) calc(32 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      box-shadow: inset calc(2 * var(--u)) 0 calc(16 * var(--u)) rgba(56, 189, 248, 0.16);
+      margin-bottom: calc(22 * var(--u));
+    }
+
+    .overview-label {
+      flex-shrink: 0;
+      font-size: calc(14 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      color: #7dd3fc;
+      padding: calc(6 * var(--u)) calc(14 * var(--u));
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      border-radius: calc(999 * var(--u));
+      background: rgba(125, 211, 252, 0.06);
+      white-space: nowrap;
+    }
+
+    .overview-text {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      color: #f1f5f9;
+      letter-spacing: -0.005em;
+      line-height: 1.4;
+    }
+
+    .overview-text .accent {
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    .overview-text .sep {
+      color: #38bdf8;
+      font-weight: 700;
+      padding: 0 calc(8 * var(--u));
+    }
+
+    /* ───────────── 좌/우 대칭 카드 그리드 ───────────── */
+    .pair-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(30 * var(--u));
+      min-height: 0;
+    }
+
+    .track-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: 0;
+      box-shadow: inset calc(2 * var(--u)) 0 calc(16 * var(--u)) rgba(56, 189, 248, 0.18);
+      display: grid;
+      grid-template-columns: 14% 1fr;
+      grid-template-rows:
+        auto
+        /* 헤더 (두 컬럼 가로지름) */
+        auto
+        /* INPUT 행 */
+        auto
+        /* 입력 → 가공 화살표 행 */
+        auto
+        /* Key Value 행 */
+        auto
+        /* 출력 화살표 행 */
+        auto;
+      /* OUTPUT 행 */
+      row-gap: 0;
+      column-gap: 0;
+      min-height: 0;
+    }
+
+    .track-card.left {
+      border-left-color: #7dd3fc;
+      box-shadow: inset calc(2 * var(--u)) 0 calc(18 * var(--u)) rgba(125, 211, 252, 0.22);
+    }
+
+    /* 카드 헤더 (두 컬럼 가로지름) */
+    .track-card .card-head {
+      grid-column: 1 / -1;
+      padding: calc(20 * var(--u)) calc(36 * var(--u)) calc(10 * var(--u));
+      margin-bottom: 0;
+    }
+
+    /* 트랙 라벨 글씨 (서비스명과 글자간격 톤 통일) */
+    .track-card .track-label {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: -0.012em;
+      text-transform: none;
+    }
+
+    /* 사이드바 라벨 (분리선 없이 본문과 연결되는 톤) */
+    .track-card .side-label {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: calc(8 * var(--u));
+      padding: calc(8 * var(--u)) calc(8 * var(--u));
+      background: transparent;
+      font-size: calc(13 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.30em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    /* 라벨 우측 끝 — 본문 방향으로 뻗어나가는 미세한 sky 라인 (연결감) */
+    .track-card .side-label::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(18 * var(--u));
+      height: calc(2 * var(--u));
+      background: linear-gradient(90deg, rgba(125, 211, 252, 0) 0%, rgba(125, 211, 252, 0.55) 100%);
+      border-radius: calc(1 * var(--u));
+    }
+
+    /* 사이드바 비어있는 행 (화살표 행): 분리감 제거 */
+    .track-card .side-empty {
+      background: transparent;
+    }
+
+    /* 본문 행 */
+    .track-card .row-body {
+      padding: calc(8 * var(--u)) calc(28 * var(--u));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: calc(8 * var(--u));
+    }
+
+    .track-card .row-body.first {
+      padding-top: calc(10 * var(--u));
+    }
+
+    .track-card .row-body.last {
+      padding-bottom: calc(18 * var(--u));
+    }
+
+    /* 입력 칩 가운데 정렬 */
+    .track-card .input-chips {
+      justify-content: center;
+    }
+
+    /* output-box: 사이드바가 라벨 역할이므로 박스만 유지 */
+    .track-card .output-box {
+      width: 60%;
+      margin: 0 auto;
+    }
+
+    /* 가공 산출물 박스: caption 제거 + 글씨 크기에 맞게 축소 */
+    .track-card .processed {
+      padding: calc(10 * var(--u)) calc(24 * var(--u));
+      width: fit-content;
+      max-width: 100%;
+      align-self: center;
+    }
+
+    .track-card.right {
+      border-left-color: #60a5fa;
+      box-shadow: inset calc(2 * var(--u)) 0 calc(18 * var(--u)) rgba(96, 165, 250, 0.22);
+    }
+
+    /* 카드 헤드 — 라벨 + 서비스명 */
+    .card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: calc(16 * var(--u));
+      padding-bottom: calc(14 * var(--u));
+      border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+      margin-bottom: calc(4 * var(--u));
+    }
+
+    .track-label {
+      font-size: calc(13 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+
+    .service-name {
+      font-size: calc(28 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.012em;
+      line-height: 1.2;
+    }
+
+    /* 섹션 부제 */
+    .section-eyebrow {
+      font-size: calc(13 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+    }
+
+    .section-eyebrow .sub {
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      padding-left: calc(8 * var(--u));
+    }
+
+    /* INPUT 칩 — 슬라이드 6 meta-chip 스타일 재사용 */
+    .input-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: calc(8 * var(--u));
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: calc(8 * var(--u)) calc(16 * var(--u));
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: calc(999 * var(--u));
+      font-size: calc(19 * var(--u));
+      font-weight: 500;
+      color: #cbd5e1;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    /* 우측(기업) — 그룹별 보더 톤 미세 차등 */
+    .chip.g-social {
+      border-color: rgba(125, 211, 252, 0.35);
+      background: rgba(125, 211, 252, 0.07);
+    }
+
+    .chip.g-admin {
+      border-color: rgba(96, 165, 250, 0.32);
+      background: rgba(96, 165, 250, 0.06);
+    }
+
+    .chip.g-base {
+      border-color: rgba(186, 230, 253, 0.30);
+      background: rgba(186, 230, 253, 0.05);
+    }
+
+    /* 우측 칩 2x4 grid */
+    .input-chips.grid-2x4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: calc(7 * var(--u));
+    }
+
+    .input-chips.grid-2x4 .chip {
+      justify-content: center;
+      padding: calc(7 * var(--u)) calc(8 * var(--u));
+      font-size: calc(14 * var(--u));
+    }
+
+    /* 수렴 화살표 (다대일) — SVG */
+    .converge {
+      width: 100%;
+      height: calc(36 * var(--u));
+      display: block;
+    }
+
+    /* 가공 산출물 강조 카드 */
+    .processed {
+      position: relative;
+      padding: calc(20 * var(--u)) calc(24 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.10) 0%, rgba(125, 211, 252, 0.16) 100%);
+      border: 1px solid rgba(125, 211, 252, 0.45);
+      border-radius: calc(10 * var(--u));
+      box-shadow:
+        0 0 calc(28 * var(--u)) rgba(56, 189, 248, 0.28),
+        inset 0 0 calc(20 * var(--u)) rgba(125, 211, 252, 0.10);
+      text-align: center;
+    }
+
+    .processed .caption {
+      font-size: calc(12 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .processed .label {
+      font-size: calc(28 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      letter-spacing: -0.015em;
+      line-height: 1.05;
+      text-shadow: 0 0 calc(20 * var(--u)) rgba(125, 211, 252, 0.35);
+    }
+
+    /* 출력 화살표 (단일, 아래) — SVG */
+    .arrow-down {
+      width: calc(28 * var(--u));
+      height: calc(26 * var(--u));
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* OUTPUT */
+    .output-box {
+      padding: calc(14 * var(--u)) calc(18 * var(--u));
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px dashed rgba(125, 211, 252, 0.30);
+      border-radius: calc(8 * var(--u));
+    }
+
+    .output-list {
+      display: flex;
+      flex-direction: column;
+      gap: calc(6 * var(--u));
+    }
+
+    .output-item {
+      font-size: calc(21 * var(--u));
+      font-weight: 600;
+      color: #f1f5f9;
+      letter-spacing: -0.005em;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+    }
+
+    .output-item::before {
+      content: '';
+      width: calc(6 * var(--u));
+      height: calc(6 * var(--u));
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 calc(8 * var(--u)) rgba(56, 189, 248, 0.6);
+      flex-shrink: 0;
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">02. AX 추진 준비 상황</div>
+        <div class="rule"></div>
+        <h1 class="main-title">데이터 기반 맞춤형 통합서비스 by Human</h1>
+
+        <!-- 상단 OVERVIEW 띠 -->
+        <div class="overview-band">
+          <span class="overview-label">핵심서비스</span>
+          <div class="overview-text">
+            <span class="accent">데이터 기반 프로파일링 &xrarr; 프로파일 기반 맞춤서비스</span>
+          </div>
+        </div>
+
+        <!-- 좌/우 대칭 카드 -->
+        <div class="pair-grid">
+          <!-- 좌측: 개인(구직자) — 사이드바 + 본문 2-컬럼 구조 -->
+          <div class="track-card left">
+            <!-- 헤더 (두 컬럼 가로지름) -->
+            <div class="card-head">
+              <span class="service-name">구직자도약보장패키지</span>
+              <span class="track-label">개인 · 구직자</span>
+            </div>
+
+            <!-- INPUT 행 -->
+            <div class="side-label">INPUT</div>
+            <div class="row-body first">
+              <div class="input-chips">
+                <span class="chip">교육</span>
+                <span class="chip">직업훈련</span>
+                <span class="chip">경력</span>
+                <span class="chip">자격</span>
+                <span class="chip">직업적성</span>
+              </div>
+            </div>
+
+            <!-- 입력 → 가공 화살표 행 (사이드바 비움) -->
+            <div class="side-empty"></div>
+            <div class="row-body">
+              <svg class="arrow-down" viewBox="0 0 28 26" aria-hidden="true">
+                <path d="M14,2 L14,20" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round" />
+                <path d="M7,15 L14,22 L21,15" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+
+            <!-- 가공 산출물 행 -->
+            <div class="side-label">Key<br>Value</div>
+            <div class="row-body">
+              <div class="processed">
+                <div class="label">개인 프로파일</div>
+              </div>
+            </div>
+
+            <!-- 출력 화살표 행 (사이드바 비움) -->
+            <div class="side-empty"></div>
+            <div class="row-body">
+              <svg class="arrow-down" viewBox="0 0 28 26" aria-hidden="true">
+                <path d="M14,2 L14,20" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round" />
+                <path d="M7,15 L14,22 L21,15" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+
+            <!-- OUTPUT 행 -->
+            <div class="side-label">OUTPUT</div>
+            <div class="row-body last">
+              <div class="output-box">
+                <div class="output-list">
+                  <div class="output-item">맞춤형 취업지원 서비스 추천</div>
+                  <div class="output-item">일자리 매칭</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측: 기업 — 좌측과 동일 사이드바 + 본문 2-컬럼 구조 -->
+          <div class="track-card right">
+            <!-- 헤더 (두 컬럼 가로지름) -->
+            <div class="card-head">
+              <span class="service-name">기업지원종합서비스</span>
+              <span class="track-label">기업</span>
+            </div>
+
+            <!-- INPUT 행 -->
+            <div class="side-label">INPUT</div>
+            <div class="row-body first">
+              <div class="input-chips">
+                <span class="chip g-social">고용보험</span>
+                <span class="chip g-social">산재보험</span>
+                <span class="chip g-admin">사업장감독</span>
+                <span class="chip g-admin">지원금</span>
+              </div>
+              <div class="input-chips">
+                <span class="chip g-admin">신고사건</span>
+                <span class="chip g-admin">컨설팅</span>
+                <span class="chip g-base">사업주</span>
+                <span class="chip g-base">기본정보</span>
+              </div>
+            </div>
+
+            <!-- 입력 → 가공 화살표 행 (사이드바 비움) -->
+            <div class="side-empty"></div>
+            <div class="row-body">
+              <svg class="arrow-down" viewBox="0 0 28 26" aria-hidden="true">
+                <path d="M14,2 L14,20" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round" />
+                <path d="M7,15 L14,22 L21,15" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+
+            <!-- 가공 산출물 행 -->
+            <div class="side-label">Key<br>Value</div>
+            <div class="row-body">
+              <div class="processed">
+                <div class="label">기업 프로파일</div>
+              </div>
+            </div>
+
+            <!-- 출력 화살표 행 (사이드바 비움) -->
+            <div class="side-empty"></div>
+            <div class="row-body">
+              <svg class="arrow-down" viewBox="0 0 28 26" aria-hidden="true">
+                <path d="M14,2 L14,20" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round" />
+                <path d="M7,15 L14,22 L21,15" stroke="#7dd3fc" stroke-width="1.6" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+
+            <!-- OUTPUT 행 -->
+            <div class="side-label">OUTPUT</div>
+            <div class="row-body last">
+              <div class="output-box">
+                <div class="output-list">
+                  <div class="output-item">애로사항 해소를 위한 솔루션 제시</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">07</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

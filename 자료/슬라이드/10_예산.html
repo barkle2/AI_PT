@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 10 — 예산 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 시리즈 동일 좌표 */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(50 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(32 * var(--u));
+    }
+
+    /* ───────── 좌-우 분할 그리드 ───────── */
+    .budget-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+      gap: calc(36 * var(--u));
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    /* 공통 카드 */
+    .budget-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(34 * var(--u)) calc(36 * var(--u));
+      box-shadow: inset calc(2 * var(--u)) 0 calc(16 * var(--u)) rgba(56, 189, 248, 0.16);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .budget-card.left {
+      border-left-color: #7dd3fc;
+      box-shadow: inset calc(2 * var(--u)) 0 calc(18 * var(--u)) rgba(125, 211, 252, 0.20);
+    }
+
+    .budget-card.right {
+      border-left-color: #60a5fa;
+    }
+
+    /* 카드 헤더 */
+    .card-eyebrow {
+      font-size: calc(18 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      margin-bottom: calc(10 * var(--u));
+    }
+
+    .card-title {
+      font-size: calc(30 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.012em;
+      line-height: 1.2;
+      margin-bottom: calc(14 * var(--u));
+    }
+
+    .card-divider {
+      width: calc(56 * var(--u));
+      height: calc(3 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      border-radius: calc(2 * var(--u));
+      margin-bottom: calc(28 * var(--u));
+    }
+
+    /* 데이터 행 */
+    .data-row {
+      padding: calc(16 * var(--u)) calc(20 * var(--u));
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: calc(8 * var(--u));
+      margin-bottom: calc(12 * var(--u));
+    }
+
+    .data-label {
+      display: block;
+      font-size: calc(18 * var(--u));
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+      margin-bottom: calc(8 * var(--u));
+    }
+
+    .data-value {
+      display: block;
+      font-size: calc(28 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.012em;
+      line-height: 1.15;
+    }
+
+    .data-value .unit {
+      font-size: calc(20 * var(--u));
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-left: calc(2 * var(--u));
+    }
+
+    .data-value .meta {
+      display: inline-block;
+      margin-left: calc(10 * var(--u));
+      font-size: calc(16 * var(--u));
+      font-weight: 600;
+      color: #7dd3fc;
+      letter-spacing: 0.02em;
+    }
+
+    /* 비율 강조 블록 */
+    .ratio-block {
+      margin-top: calc(20 * var(--u));
+      padding: calc(24 * var(--u)) calc(20 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.10) 0%, rgba(125, 211, 252, 0.18) 100%);
+      border: 1px solid rgba(125, 211, 252, 0.45);
+      border-radius: calc(10 * var(--u));
+      box-shadow:
+        0 0 calc(28 * var(--u)) rgba(56, 189, 248, 0.22),
+        inset 0 0 calc(20 * var(--u)) rgba(125, 211, 252, 0.10);
+      text-align: center;
+    }
+
+    .ratio-label {
+      font-size: calc(17 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      margin-bottom: calc(10 * var(--u));
+    }
+
+    .ratio-num {
+      font-size: calc(72 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      text-shadow: 0 0 calc(28 * var(--u)) rgba(125, 211, 252, 0.35);
+    }
+
+    .ratio-caption {
+      margin-top: calc(12 * var(--u));
+      font-size: calc(18 * var(--u));
+      font-weight: 500;
+      color: #cbd5e1;
+      letter-spacing: 0.005em;
+    }
+
+    /* 우측 — 우선순위 항목 */
+    .priority-item {
+      display: flex;
+      align-items: flex-start;
+      gap: calc(16 * var(--u));
+      padding: calc(20 * var(--u)) calc(24 * var(--u));
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: calc(8 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+    }
+
+    .priority-num {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(36 * var(--u));
+      height: calc(36 * var(--u));
+      background: rgba(125, 211, 252, 0.12);
+      border: 1px solid rgba(125, 211, 252, 0.45);
+      border-radius: 50%;
+      font-size: calc(18 * var(--u));
+      font-weight: 800;
+      color: #7dd3fc;
+      white-space: nowrap;
+    }
+
+    .priority-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: calc(6 * var(--u));
+    }
+
+    .priority-headline {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: -0.005em;
+      line-height: 1.35;
+    }
+
+    .priority-headline .em {
+      color: #bae6fd;
+      font-weight: 800;
+    }
+
+    .priority-sub {
+      font-size: calc(17 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.005em;
+      line-height: 1.5;
+    }
+
+    /* 결론 박스 — 좌측 ratio-block과 대칭 */
+    .conclusion-block {
+      margin-top: auto;
+      padding: calc(28 * var(--u)) calc(24 * var(--u));
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.10) 0%, rgba(56, 189, 248, 0.18) 100%);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      border-radius: calc(10 * var(--u));
+      box-shadow:
+        0 0 calc(28 * var(--u)) rgba(96, 165, 250, 0.22),
+        inset 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.10);
+      text-align: center;
+    }
+
+    .conclusion-text {
+      font-size: calc(24 * var(--u));
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: -0.005em;
+      line-height: 1.4;
+    }
+
+    .conclusion-text .em {
+      color: #bae6fd;
+      font-weight: 800;
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">02. AX 추진 준비 상황</div>
+        <div class="rule"></div>
+        <h1 class="main-title">정보화 예산 현황 및 &apos;27년 요구 방향</h1>
+
+        <div class="budget-grid">
+
+          <!-- 좌측: '26년 정보화 예산 현황 -->
+          <article class="budget-card left">
+            <div class="card-eyebrow">FY 2026</div>
+            <h2 class="card-title">'26년 정보화 예산 현황</h2>
+            <div class="card-divider"></div>
+
+            <div class="data-row">
+              <span class="data-label">고용노동부 전체 예산</span>
+              <span class="data-value">37조 6,761<span class="unit">억원</span></span>
+            </div>
+
+            <div class="data-row">
+              <span class="data-label">정보화 예산</span>
+              <span class="data-value">1,520<span class="unit">억원</span><span class="meta">14개 사업</span></span>
+            </div>
+
+            <div class="ratio-block">
+              <div class="ratio-label">전체 예산 중 비율</div>
+              <div class="ratio-num">0.40%</div>
+              <div class="ratio-caption">전체 예산 1만원당 약 40원 수준</div>
+            </div>
+          </article>
+
+          <!-- 우측: '27년 요구 방향 -->
+          <article class="budget-card right">
+            <div class="card-eyebrow">FY 2027</div>
+            <h2 class="card-title">'27년 요구 방향</h2>
+            <div class="card-divider"></div>
+
+            <div class="priority-item">
+              <span class="priority-num">1</span>
+              <div class="priority-text">
+                <div class="priority-headline">고용노동 <span class="em">AI 업무관리 플랫폼</span> 구축 추진</div>
+                <div class="priority-sub">AX 추진의 토대가 될 클라우드 기반 통합 플랫폼 구축</div>
+              </div>
+            </div>
+
+            <div class="priority-item">
+              <span class="priority-num">2</span>
+              <div class="priority-text">
+                <div class="priority-headline"><span class="em">클라우드 전환</span>을 위한 인프라 확보 비용</div>
+                <div class="priority-sub">기존 온프레미스 → 클라우드 단계적 전환으로 확장성·업무연속성 확보</div>
+              </div>
+            </div>
+
+            <div class="priority-item">
+              <span class="priority-num">3</span>
+              <div class="priority-text">
+                <div class="priority-headline"><span class="em">데이터표준 준수</span>를 위한 기존 시스템 개선 비용</div>
+                <div class="priority-sub">기존 시스템을 공통 데이터 표준에 맞게 정비 — AI가 읽을 수 있는 데이터로 전환</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">10</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>
