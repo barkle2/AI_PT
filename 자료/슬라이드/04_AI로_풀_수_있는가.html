@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 04 — AI로 풀 수 있는가 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    /* 좌측 액센트 바 (시리즈 동일) */
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    /* 미세 그리드 패턴 (시리즈 동일) */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 헤더 + 좌(워드마크) / 우(근거 카드) 2분할 */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 헤더 영역 — 슬라이드 3과 동일 톤 */
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(50 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(48 * var(--u));
+    }
+
+    /* 본문 분할: 좌 60% (워드마크) / 디바이더 / 우 40% (근거 카드 스택) */
+    .body-split {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr calc(1 * var(--u)) calc(620 * var(--u));
+      column-gap: calc(56 * var(--u));
+      align-items: stretch;
+      position: relative;
+    }
+
+    /* 좌측 — 거대 워드마크 'DATA.' */
+    .wordmark {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: visible;
+    }
+
+    .wordmark .text {
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', sans-serif;
+      font-weight: 800;
+      font-size: calc(280 * var(--u));
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      color: rgba(125, 211, 252, 0.06);
+      -webkit-text-stroke: calc(1.5 * var(--u)) rgba(125, 211, 252, 0.55);
+      white-space: nowrap;
+      transform: translateX(calc(-12 * var(--u)));
+    }
+
+    /* 디바이더 */
+    .divider {
+      width: calc(1 * var(--u));
+      background: rgba(148, 163, 184, 0.18);
+      align-self: stretch;
+    }
+
+    /* 우측 — 근거 카드 2개 세로 스택 */
+    .reasons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: calc(40 * var(--u));
+      height: 100%;
+    }
+
+    .reason-card {
+      position: relative;
+      background: rgba(56, 189, 248, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(30 * var(--u)) calc(40 * var(--u));
+      display: flex;
+      flex-direction: column;
+      gap: calc(14 * var(--u));
+    }
+
+    .reason-card .num {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      color: #7dd3fc;
+    }
+
+    .reason-card .head {
+      font-size: calc(34 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .reason-card .body {
+      font-size: calc(20 * var(--u));
+      font-weight: 500;
+      line-height: 1.55;
+      color: #cbd5e1;
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">01. AX 추진 필요성</div>
+        <div class="rule"></div>
+        <h1 class="main-title">AI를 활용한 맞춤형 통합서비스의 전제조건</h1>
+
+        <div class="body-split">
+          <!-- 좌측: 거대 워드마크 -->
+          <div class="wordmark">
+            <span class="text">DATA.</span>
+          </div>
+
+          <!-- 디바이더 -->
+          <div class="divider"></div>
+
+          <!-- 우측: 근거 카드 2개 세로 스택 -->
+          <div class="reasons">
+            <div class="reason-card">
+              <span class="num">01</span>
+              <div class="head">데이터</div>
+              <p class="body">AI가 학습할 수 있는 충분한 양의 데이터</p>
+            </div>
+
+            <div class="reason-card">
+              <span class="num">02</span>
+              <div class="head">반복 패턴</div>
+              <p class="body">업무 프로세스를 정의할 수 있다</p>
+            </div>
+
+            <div class="reason-card">
+              <span class="num">03</span>
+              <div class="head">실증</div>
+              <p class="body">시범 AI 프로젝트의 가시적 성과</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">04</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

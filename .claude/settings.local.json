@@ -9,7 +9,8 @@
       "Bash(python -c \"import pypdf; print\\('ok'\\)\")",
       "Bash(python *)",
       "WebSearch",
-      "WebFetch(domain:biz.heraldcorp.com)"
+      "WebFetch(domain:biz.heraldcorp.com)",
+      "Bash(powershell *)"
     ]
   }
 }

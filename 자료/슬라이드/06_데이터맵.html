@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 06 — 고용노동부 데이터맵 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    /* 좌측 액센트 바 (시리즈 동일) */
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    /* 미세 그리드 패턴 (시리즈 동일) */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 시리즈 동일 좌표 (슬라이드 5 톤 복원) */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 헤더 — 시리즈 동일 톤 (슬라이드 5 복원) */
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(50 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(24 * var(--u));
+    }
+
+    /* 부제 — 슬라이드 5 venue-text 톤 (20u, weight 500, #e2e8f0) */
+    .subtitle {
+      font-size: calc(20 * var(--u));
+      font-weight: 500;
+      color: #e2e8f0;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      margin-bottom: calc(20 * var(--u));
+    }
+
+    .subtitle .sep {
+      color: #38bdf8;
+      font-weight: 600;
+      padding: 0 calc(6 * var(--u));
+    }
+
+    /* 부제 보조 캡션 — 출처/범위 정보 (톤다운) */
+    .subtitle-sub {
+      margin-top: calc(8 * var(--u));
+      font-size: calc(16 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+    }
+
+    .subtitle-sub .accent {
+      color: #7dd3fc;
+      font-weight: 600;
+    }
+
+    /* 본문 — 좌 35% / 우 65% 분할 (iframe 가로 축소, 좌측 인디케이터 여유) */
+    .body-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 35fr 65fr;
+      gap: calc(36 * var(--u));
+      min-height: 0;
+    }
+
+    /* 좌측 영역 — 인디케이터 + 메타데이터 2단 분할 */
+    .left-pane {
+      display: flex;
+      flex-direction: column;
+      gap: calc(28 * var(--u));
+      min-height: 0;
+    }
+
+    /* 좌측 4단 위계 인디케이터 (컴팩트화 — 자연 높이로 위쪽 정렬) */
+    .indicator-stack {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: calc(12 * var(--u));
+      position: relative;
+    }
+
+    /* 위계감을 보여주는 좌측 마커 라인 — 컨테이너 자연 높이에 맞춰 자동 단축 */
+    .indicator-stack::before {
+      content: '';
+      position: absolute;
+      left: calc(2 * var(--u));
+      top: calc(16 * var(--u));
+      bottom: calc(16 * var(--u));
+      width: calc(1 * var(--u));
+      background: linear-gradient(180deg,
+          rgba(125, 211, 252, 0.45) 0%,
+          rgba(56, 189, 248, 0.30) 50%,
+          rgba(96, 165, 250, 0.18) 100%);
+      pointer-events: none;
+    }
+
+    .level {
+      display: flex;
+      align-items: center;
+      gap: calc(22 * var(--u));
+      padding: calc(8 * var(--u)) 0 calc(8 * var(--u)) calc(28 * var(--u));
+      position: relative;
+    }
+
+    /* 들여쓰기로 위계감 표현 */
+    .level.l1 {
+      padding-left: calc(20 * var(--u));
+    }
+
+    .level.l2 {
+      padding-left: calc(36 * var(--u));
+    }
+
+    .level.l3 {
+      padding-left: calc(52 * var(--u));
+    }
+
+    .level.l4 {
+      padding-left: calc(68 * var(--u));
+    }
+
+    /* 각 단계별 좌측 마커 점 */
+    .level::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(8 * var(--u));
+      height: calc(8 * var(--u));
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 calc(10 * var(--u)) rgba(56, 189, 248, 0.55);
+    }
+
+    .level.l1::before {
+      left: calc(0 * var(--u));
+      background: #7dd3fc;
+    }
+
+    .level.l2::before {
+      left: calc(16 * var(--u));
+      background: #38bdf8;
+    }
+
+    .level.l3::before {
+      left: calc(32 * var(--u));
+      background: #60a5fa;
+    }
+
+    .level.l4::before {
+      left: calc(48 * var(--u));
+      background: #a5b4fc;
+    }
+
+    .level .num {
+      font-size: calc(64 * var(--u));
+      font-weight: 900;
+      color: #7dd3fc;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      min-width: calc(120 * var(--u));
+    }
+
+    .level.l1 .num {
+      color: #bae6fd;
+    }
+
+    .level.l2 .num {
+      color: #7dd3fc;
+    }
+
+    .level.l3 .num {
+      color: #38bdf8;
+    }
+
+    .level.l4 .num {
+      color: #93c5fd;
+    }
+
+    .level .label {
+      display: flex;
+      flex-direction: column;
+      gap: calc(4 * var(--u));
+    }
+
+    .level .label .ko {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .level .label .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #64748b;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* 메타데이터 표준 연계 섹션 */
+    .metadata-section {
+      display: flex;
+      flex-direction: column;
+      gap: calc(14 * var(--u));
+    }
+
+    .meta-eyebrow {
+      font-size: calc(18 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+      text-transform: none;
+    }
+
+    .meta-rule {
+      width: calc(32 * var(--u));
+      height: calc(3 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      border-radius: calc(1 * var(--u));
+    }
+
+    .meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: calc(9 * var(--u));
+      margin-top: calc(2 * var(--u));
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: calc(8 * var(--u)) calc(16 * var(--u));
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: calc(999 * var(--u));
+      font-size: calc(17 * var(--u));
+      font-weight: 500;
+      color: #cbd5e1;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    /* 우측 트리 영역 */
+    .tree-pane {
+      position: relative;
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: calc(8 * var(--u));
+      background: rgba(56, 189, 248, 0.04);
+      overflow: hidden;
+      box-shadow: inset 0 0 calc(40 * var(--u)) rgba(56, 189, 248, 0.06);
+    }
+
+    .tree-pane iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: transparent;
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">02. AX 추진 준비 상황</div>
+        <div class="rule"></div>
+        <h1 class="main-title">고용노동부 데이터맵</h1>
+        <div class="subtitle">
+          고용노동부 + 12개 산하기관 + 유관기관 통합 데이터 현황
+        </div>
+
+        <div class="body-grid">
+          <!-- 좌측: 4단 위계 인디케이터 + 메타데이터 표준 연계 -->
+          <div class="left-pane">
+            <div class="indicator-stack">
+              <div class="level l1">
+                <div class="num">5</div>
+                <div class="label">
+                  <div class="ko">대분류</div>
+                  <div class="en">Category</div>
+                </div>
+              </div>
+              <div class="level l2">
+                <div class="num">22</div>
+                <div class="label">
+                  <div class="ko">중분류</div>
+                  <div class="en">Subcategory</div>
+                </div>
+              </div>
+              <div class="level l3">
+                <div class="num">90</div>
+                <div class="label">
+                  <div class="ko">소분류</div>
+                  <div class="en">Class</div>
+                </div>
+              </div>
+              <div class="level l4">
+                <div class="num">246</div>
+                <div class="label">
+                  <div class="ko">기준단위</div>
+                  <div class="en">Data Unit</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="metadata-section">
+              <div class="meta-eyebrow">데이터맵은 메타데이터 표준과 매칭</div>
+              <div class="meta-rule"></div>
+              <div class="meta-chips">
+                <span class="meta-chip">정보시스템명</span>
+                <span class="meta-chip">한·영 DB명</span>
+                <span class="meta-chip">DBMS 종류·버전</span>
+                <span class="meta-chip">테이블명</span>
+                <span class="meta-chip">레코드 수</span>
+                <span class="meta-chip">컬럼명</span>
+                <span class="meta-chip">데이터타입</span>
+                <span class="meta-chip">NOT NULL</span>
+                <span class="meta-chip">PK·FK</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측: 데이터맵 트리 임베드 -->
+          <div class="tree-pane">
+            <iframe src="../데이터맵_트리.html?embed=1" title="고용노동부 데이터맵 인터랙티브 트리"></iframe>
+          </div>
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">06</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

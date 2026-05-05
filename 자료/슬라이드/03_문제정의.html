@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 03 — 문제 정의 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    /* 좌측 액센트 바 (시리즈 동일) */
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    /* 미세 그리드 패턴 (시리즈 동일) */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 문제 정의 */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 헤더 영역 — 02와 동일 톤 (eyebrow + 룰 + 타이틀) */
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(50 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(48 * var(--u));
+    }
+
+    /* 문제 영역 = 좌측 자유 배치 + 중앙 화살표 + 우측 메시지 박스 */
+    .problem-area {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr calc(160 * var(--u)) calc(572 * var(--u));
+      column-gap: calc(24 * var(--u));
+      align-items: stretch;
+      position: relative;
+    }
+
+    /* 좌측 — 8개 타원형 카드 자유 배치 */
+    .issue-area {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .issue-cell {
+      position: absolute;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.28);
+      border-radius: 9999px;
+      padding: calc(20 * var(--u)) calc(40 * var(--u));
+      text-align: center;
+      line-height: 1.25;
+      color: #f1f5f9;
+      font-size: calc(26 * var(--u));
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      box-shadow: 0 calc(4 * var(--u)) calc(20 * var(--u)) rgba(8, 14, 28, 0.5);
+      transition: none;
+    }
+
+    /* 8개 카드 — 불규칙 배치 (간격 20% 축소, 중심 방향 수렴) */
+    .c1 {
+      top: 12%;
+      left: 7%;
+      transform: rotate(-2deg);
+    }
+
+    .c2 {
+      top: 31%;
+      left: 25%;
+      transform: rotate(1.5deg);
+    }
+
+    .c3 {
+      top: 14%;
+      left: 44%;
+      transform: rotate(-1deg);
+    }
+
+    .c4 {
+      top: 33%;
+      left: 58%;
+      transform: rotate(2deg);
+    }
+
+    .c5 {
+      top: 58%;
+      left: 10%;
+      transform: rotate(1deg);
+    }
+
+    .c6 {
+      top: 73%;
+      left: 20%;
+      transform: rotate(-2deg);
+    }
+
+    .c7 {
+      top: 57%;
+      left: 49%;
+      transform: rotate(1.5deg);
+    }
+
+    .c8 {
+      top: 71%;
+      left: 63%;
+      transform: rotate(-1deg);
+    }
+
+    /* 가운데 — 수렴 화살표 SVG 영역 */
+    .converge {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .converge svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* 우측 — 핵심 메시지 박스 (높이 80%, 세로 가운데 정렬) */
+    .key-msg {
+      align-self: center;
+      height: 80%;
+      background: rgba(56, 189, 248, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(4 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(32 * var(--u)) calc(40 * var(--u));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: calc(10 * var(--u));
+    }
+
+    .key-msg .label {
+      font-size: calc(15 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+    }
+
+    .key-msg .headline {
+      font-size: calc(64 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .key-msg .headline em {
+      font-style: normal;
+      color: #7dd3fc;
+    }
+
+    .key-msg .desc {
+      font-size: calc(18 * var(--u));
+      font-weight: 500;
+      line-height: 1.55;
+      color: #cbd5e1;
+      margin-top: calc(4 * var(--u));
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">01. AX 추진 필요성</div>
+        <div class="rule"></div>
+        <h1 class="main-title">고용노동부는 어떤 문제를 어떻게 해결해야 할까?</h1>
+
+        <div class="problem-area">
+          <!-- 좌측: 8개 이슈 — 타원형 카드, 불규칙 배치 -->
+          <div class="issue-area">
+            <div class="issue-cell c1">산업재해 예방</div>
+            <div class="issue-cell c2">임금체불 감소</div>
+            <div class="issue-cell c3">근로조건 개선</div>
+            <div class="issue-cell c4">직장내 괴롭힘 방지</div>
+            <div class="issue-cell c5">구인·구직 지원</div>
+            <div class="issue-cell c6">직업능력개발</div>
+            <div class="issue-cell c7">고용지원금 집행</div>
+            <div class="issue-cell c8">일·생활 균형 확산</div>
+          </div>
+
+          <!-- 가운데: 단일 큰 화살표 — 부드러운 곡선, 연한 톤, 테두리 없음 -->
+          <div class="converge">
+            <svg viewBox="0 0 120 400" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="arrowFill" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.04" />
+                  <stop offset="55%" stop-color="#60a5fa" stop-opacity="0.20" />
+                  <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.50" />
+                </linearGradient>
+              </defs>
+
+              <!-- 화살표: 좌측 뿌리(trumpet) → 가운데 좁은 샤프트 → 우측 화살촉(날개+뾰족한 끝) -->
+              <path d="M 0 30
+                      C 15 55, 50 130, 75 150
+                      L 75 75
+                      L 118 200
+                      L 75 325
+                      L 75 250
+                      C 50 270, 15 345, 0 370
+                      L 0 30 Z" fill="url(#arrowFill)" />
+            </svg>
+          </div>
+
+          <!-- 우측: 핵심 메시지 박스 -->
+          <div class="key-msg">
+            <span class="label">KEY INSIGHT</span>
+            <div class="headline">원하는 건<br><em>맞춤형 통합서비스</em></div>
+            <p class="desc">맞춤형: 대상의 정보를 바탕으로<br>통합서비스: 문제를 한 번에 해결<br>하나의 좋은 서비스면 충분하다.</p>
+          </div>
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">03</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

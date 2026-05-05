@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>슬라이드 01 — 표지 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #050a16;
+    font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 16:9 슬라이드 컨테이너 (뷰포트에 맞춰 letterbox) */
+  .slide-wrap {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide {
+    width: min(100vw, calc(100vh * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16));
+    background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+    color: #f1f5f9;
+    position: relative;
+    overflow: hidden;
+    /* 1920×1080 기준 단위 환산용 */
+    --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+  }
+
+  /* 좌측 액센트 바 */
+  .slide::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(8 * var(--u));
+    background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+    box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+  }
+
+  /* 미세 그리드 패턴 */
+  .slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+    background-size: calc(80 * var(--u)) calc(80 * var(--u));
+    pointer-events: none;
+  }
+
+  /* 상단 식별 영역 */
+  .slide-top {
+    position: absolute;
+    top: calc(70 * var(--u));
+    left: calc(90 * var(--u));
+    right: calc(90 * var(--u));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+  }
+
+  /* 부처 워드마크 */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: calc(18 * var(--u));
+  }
+  .brand-mark {
+    width: calc(64 * var(--u));
+    height: calc(64 * var(--u));
+    background: url('../고용노동부.png') center/contain no-repeat;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    line-height: 1.15;
+  }
+  .brand-text .ko {
+    font-size: calc(26 * var(--u));
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: 0.01em;
+  }
+  .brand-text .en {
+    font-size: calc(12 * var(--u));
+    font-weight: 500;
+    color: #94a3b8;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: calc(2 * var(--u));
+  }
+
+  .venue {
+    text-align: right;
+    line-height: 1.4;
+  }
+  .venue-label {
+    display: block;
+    font-size: calc(13 * var(--u));
+    color: #94a3b8;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    margin-bottom: calc(6 * var(--u));
+  }
+  .venue-text {
+    font-size: calc(20 * var(--u));
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  /* 본문 */
+  .slide-body {
+    position: absolute;
+    left: calc(120 * var(--u));
+    right: calc(90 * var(--u));
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .eyebrow {
+    font-size: calc(18 * var(--u));
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    color: #7dd3fc;
+    margin-bottom: calc(32 * var(--u));
+    text-transform: uppercase;
+  }
+
+  .title {
+    font-size: calc(118 * var(--u));
+    font-weight: 800;
+    line-height: 1.06;
+    color: #f8fafc;
+    letter-spacing: -0.02em;
+  }
+
+  .rule {
+    width: calc(96 * var(--u));
+    height: calc(4 * var(--u));
+    background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+    margin: calc(48 * var(--u)) 0 calc(40 * var(--u));
+    border-radius: calc(2 * var(--u));
+  }
+
+  .subtitle {
+    font-size: calc(90 * var(--u));
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -0.02em;
+  }
+
+  /* 하단 발표자 정보 */
+  .slide-bottom {
+    position: absolute;
+    left: calc(120 * var(--u));
+    right: calc(90 * var(--u));
+    bottom: calc(80 * var(--u));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(148, 163, 184, 0.18);
+    padding-top: calc(28 * var(--u));
+    z-index: 2;
+  }
+  .presenter {
+    font-size: calc(22 * var(--u));
+    line-height: 1.5;
+  }
+  .presenter .label {
+    display: block;
+    font-size: calc(13 * var(--u));
+    color: #94a3b8;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    margin-bottom: calc(6 * var(--u));
+  }
+  .presenter .info {
+    color: #f1f5f9;
+  }
+  .presenter .role {
+    font-weight: 400;
+    color: #cbd5e1;
+    margin-right: calc(8 * var(--u));
+  }
+  .presenter .name {
+    font-weight: 700;
+    color: #f8fafc;
+  }
+
+  .date-box {
+    text-align: right;
+  }
+  .date-box .label {
+    display: block;
+    font-size: calc(13 * var(--u));
+    color: #94a3b8;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    margin-bottom: calc(6 * var(--u));
+  }
+  .date-box .info {
+    font-size: calc(22 * var(--u));
+    color: #f1f5f9;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+</style>
+</head>
+<body>
+<div class="slide-wrap">
+  <div class="slide">
+    <header class="slide-top">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <div class="ko">고용노동부</div>
+          <div class="en">Ministry of Employment and Labor</div>
+        </div>
+      </div>
+      <div class="venue">
+        <span class="venue-label">장소</span>
+        <span class="venue-text">국가인공지능전략위원회 세미나</span>
+      </div>
+    </header>
+
+    <main class="slide-body">
+      <div class="eyebrow">MINISTRY OF EMPLOYMENT AND LABOR · AX</div>
+      <h1 class="title">
+        고용노동부 AX<br>
+        추진 현황 및 향후 계획
+      </h1>
+      <div class="rule"></div>
+      <p class="subtitle">데이터, 데이터, 데이터.</p>
+    </main>
+
+    <footer class="slide-bottom">
+      <div class="presenter">
+        <span class="label">발표</span>
+        <div class="info">
+          <span class="role">고용노동부 지능정보화기획팀장</span>
+          <span class="name">김동현</span>
+        </div>
+      </div>
+      <div class="date-box">
+        <span class="label">일시</span>
+        <span class="info">2026. 5. 7.</span>
+      </div>
+    </footer>
+  </div>
+</div>
+</body>
+</html>
