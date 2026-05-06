@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 11 — 노동법 상담 AI | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 16:9 슬라이드 컨테이너 (시리즈 동일) */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* 상단 식별 영역 (시리즈 동일) */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 본문 — 시리즈 동일 좌표 */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(20 * var(--u)) 0 calc(20 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(60 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: calc(20 * var(--u));
+    }
+
+    /* ───────── Overview 띠 (07 재사용 패턴) ───────── */
+    .overview-band {
+      display: flex;
+      align-items: center;
+      gap: calc(28 * var(--u));
+      padding: calc(22 * var(--u)) calc(32 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      box-shadow: inset calc(2 * var(--u)) 0 calc(16 * var(--u)) rgba(56, 189, 248, 0.16);
+      margin-bottom: calc(22 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .overview-label {
+      flex-shrink: 0;
+      font-size: calc(14 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      color: #7dd3fc;
+      padding: calc(6 * var(--u)) calc(14 * var(--u));
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      border-radius: calc(999 * var(--u));
+      background: rgba(125, 211, 252, 0.06);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .overview-text {
+      font-size: calc(26 * var(--u));
+      font-weight: 600;
+      color: #f1f5f9;
+      letter-spacing: -0.005em;
+      line-height: 1.4;
+    }
+
+    .overview-text .accent {
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    /* ───────── 3-카드 그리드 ───────── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: calc(24 * var(--u));
+      flex: 1;
+      min-height: 0;
+      margin-bottom: calc(22 * var(--u));
+    }
+
+    .feature-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(36 * var(--u)) calc(36 * var(--u));
+      box-shadow: inset calc(2 * var(--u)) 0 calc(16 * var(--u)) rgba(56, 189, 248, 0.16);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .feature-card:nth-child(1) {
+      border-left-color: #7dd3fc;
+      box-shadow: inset calc(2 * var(--u)) 0 calc(18 * var(--u)) rgba(125, 211, 252, 0.20);
+    }
+
+    .feature-card:nth-child(2) {
+      border-left-color: #38bdf8;
+    }
+
+    .feature-card:nth-child(3) {
+      border-left-color: #60a5fa;
+    }
+
+    .feature-eyebrow {
+      font-size: calc(15 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.30em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      margin-bottom: calc(10 * var(--u));
+    }
+
+    .feature-title {
+      font-size: calc(36 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.012em;
+      line-height: 1.25;
+      margin-bottom: calc(18 * var(--u));
+    }
+
+    .feature-divider {
+      width: calc(56 * var(--u));
+      height: calc(3 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      border-radius: calc(2 * var(--u));
+      margin-bottom: calc(22 * var(--u));
+    }
+
+    .feature-desc {
+      font-size: calc(22 * var(--u));
+      font-weight: 500;
+      color: #cbd5e1;
+      letter-spacing: 0.005em;
+      line-height: 1.6;
+    }
+
+    .feature-desc .em {
+      color: #bae6fd;
+      font-weight: 700;
+    }
+
+    /* ───────── 하단 row: stats(좌) + demo button(우) ───────── */
+    .bottom-row {
+      display: flex;
+      align-items: stretch;
+      gap: calc(30 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .stat-row {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: calc(18 * var(--u));
+      padding: calc(20 * var(--u)) calc(24 * var(--u));
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: calc(10 * var(--u));
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 calc(8 * var(--u));
+      border-right: 1px solid rgba(125, 211, 252, 0.18);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-value {
+      font-size: calc(46 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      text-shadow: 0 0 calc(20 * var(--u)) rgba(125, 211, 252, 0.30);
+    }
+
+    .stat-value .arrow {
+      color: #7dd3fc;
+      font-weight: 700;
+      margin: 0 calc(4 * var(--u));
+    }
+
+    .stat-value .small {
+      font-size: calc(30 * var(--u));
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    .stat-label {
+      margin-top: calc(10 * var(--u));
+      font-size: calc(18 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+      line-height: 1.35;
+    }
+
+    /* 시연 버튼 (핵심 CTA) */
+    .demo-btn {
+      flex-shrink: 0;
+      align-self: stretch;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(12 * var(--u));
+      padding: calc(22 * var(--u)) calc(48 * var(--u));
+      background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 100%);
+      color: #0f172a;
+      font-size: calc(26 * var(--u));
+      font-weight: 800;
+      letter-spacing: -0.005em;
+      text-decoration: none;
+      border-radius: calc(8 * var(--u));
+      box-shadow:
+        0 0 calc(32 * var(--u)) rgba(56, 189, 248, 0.6),
+        0 calc(4 * var(--u)) calc(16 * var(--u)) rgba(15, 23, 42, 0.40);
+      transition: filter 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .demo-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(calc(-2 * var(--u)));
+      box-shadow:
+        0 0 calc(40 * var(--u)) rgba(56, 189, 248, 0.75),
+        0 calc(6 * var(--u)) calc(20 * var(--u)) rgba(15, 23, 42, 0.45);
+    }
+
+    .demo-btn .play {
+      font-size: calc(22 * var(--u));
+      line-height: 1;
+    }
+
+    /* 페이지 번호 (시리즈 동일) */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">03. 고용노동부 AX Project 소개</div>
+        <div class="rule"></div>
+        <h1 class="main-title">AI 노동법 상담</h1>
+
+        <!-- Overview 띠 -->
+        <div class="overview-band">
+          <span class="overview-label">개요</span>
+          <div class="overview-text">
+            언제 어디서나 맞춤형 노동법 정보를 즉시 확인할 수 있는 디지털 공공서비스
+          </div>
+        </div>
+
+        <!-- 3대 특징 카드 -->
+        <div class="feature-grid">
+
+          <article class="feature-card">
+            <h2 class="feature-title">노무사 173명 검증</h2>
+            <div class="feature-divider"></div>
+            <p class="feature-desc">
+              <span class="em">법령·질의회시·판례·매뉴얼·국민신문고</span> 5종 데이터 학습 기반 답변
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h2 class="feature-title">야간·주말 24시간 응답</h2>
+            <div class="feature-divider"></div>
+            <p class="feature-desc">
+              방문·전화 상담이 불가능한 시간대에도 즉시 응답 — 실제 이용 로그상 <span class="em">야간·주말 비중 높음</span>
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h2 class="feature-title">34개 언어 지원</h2>
+            <div class="feature-divider"></div>
+            <p class="feature-desc">
+              외국인 노동자 정보 접근 장벽 해소 — <span class="em">언어와 무관하게 동등한 노동권 보호</span>
+            </p>
+          </article>
+
+        </div>
+
+        <!-- 하단 row: 통계 + 시연 버튼 -->
+        <div class="bottom-row">
+          <div class="stat-row">
+            <div class="stat-item">
+              <div class="stat-value">251<span class="small">회</span><span class="arrow">→</span>1,000<span
+                  class="small">+회</span></div>
+              <div class="stat-label">일평균 이용 (2026년 1월 기준)</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">11.7<span class="small">만건</span></div>
+              <div class="stat-label">2025년 누적 상담 건수</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">85.7<span class="small">%↑</span></div>
+              <div class="stat-label">당근마켓 탑재 이후 증가율</div>
+            </div>
+          </div>
+
+          <a href="https://ai.moel.go.kr" target="_blank" class="demo-btn">
+            <span class="play">▶</span>
+            <span>노동법 상담 AI 시연하기</span>
+          </a>
+        </div>
+
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">11</span> &nbsp;/&nbsp; 18
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

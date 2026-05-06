@@ -10,7 +10,8 @@
       "Bash(python *)",
       "WebSearch",
       "WebFetch(domain:biz.heraldcorp.com)",
-      "Bash(powershell *)"
+      "Bash(powershell *)",
+      "Bash(python3 *)"
     ]
   }
 }

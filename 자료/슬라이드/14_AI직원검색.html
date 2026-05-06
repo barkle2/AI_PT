@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 14 — AI 직원검색 | 고용노동부 AX</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* ── 상단 헤더 ── */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u)); left: calc(90 * var(--u)); right: calc(90 * var(--u));
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 2;
+    }
+    .brand { display: flex; align-items: center; gap: calc(18 * var(--u)); }
+    .brand-mark {
+      width: calc(64 * var(--u)); height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+    .brand-text .ko { font-size: calc(26 * var(--u)); font-weight: 700; color: #f1f5f9; letter-spacing: 0.01em; }
+    .brand-text .en { font-size: calc(12 * var(--u)); font-weight: 500; color: #94a3b8; letter-spacing: 0.14em; text-transform: uppercase; margin-top: calc(2 * var(--u)); }
+    .venue { text-align: right; line-height: 1.4; }
+    .venue-label { display: block; font-size: calc(13 * var(--u)); color: #94a3b8; font-weight: 500; letter-spacing: 0.18em; margin-bottom: calc(6 * var(--u)); }
+    .venue-text { font-size: calc(20 * var(--u)); color: #e2e8f0; font-weight: 500; }
+
+    /* ── 본문 ── */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u)); right: calc(90 * var(--u));
+      top: calc(190 * var(--u)); bottom: calc(76 * var(--u));
+      z-index: 2;
+      display: flex; flex-direction: column;
+    }
+
+    .eyebrow { font-size: calc(22 * var(--u)); font-weight: 600; letter-spacing: 0.18em; color: #7dd3fc; flex-shrink: 0; }
+    .rule {
+      width: calc(96 * var(--u)); height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(14 * var(--u)) 0;
+      border-radius: calc(2 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .title-block {
+      flex-shrink: 0;
+      margin-bottom: calc(16 * var(--u));
+    }
+    .main-title {
+      font-size: calc(44 * var(--u)); font-weight: 800; color: #f8fafc;
+      letter-spacing: -0.02em; line-height: 1.1;
+      margin-bottom: calc(7 * var(--u));
+    }
+    .main-sub {
+      font-size: calc(19 * var(--u)); color: #64748b; font-weight: 500;
+    }
+
+    /* ── Before / After 그리드 ── */
+    .ba-grid {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(20 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+    }
+
+    .panel {
+      border-radius: calc(10 * var(--u));
+      padding: calc(20 * var(--u)) calc(22 * var(--u));
+      display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+    }
+    .panel-before {
+      background: linear-gradient(135deg, rgba(100,116,139,0.06) 0%, rgba(71,85,105,0.10) 100%);
+      border: 1px solid rgba(100,116,139,0.22);
+      border-left: calc(3 * var(--u)) solid #475569;
+    }
+    .panel-after {
+      background: linear-gradient(135deg, rgba(56,189,248,0.05) 0%, rgba(96,165,250,0.09) 100%);
+      border: 1px solid rgba(56,189,248,0.22);
+      border-left: calc(3 * var(--u)) solid #38bdf8;
+      box-shadow: inset calc(3 * var(--u)) 0 calc(16 * var(--u)) rgba(56,189,248,0.10);
+    }
+
+    .panel-label {
+      display: inline-block;
+      border-radius: calc(4 * var(--u));
+      padding: calc(3 * var(--u)) calc(10 * var(--u));
+      font-size: calc(12 * var(--u)); font-weight: 700; letter-spacing: 0.12em;
+      margin-bottom: calc(14 * var(--u));
+      flex-shrink: 0; align-self: flex-start;
+    }
+    .label-before {
+      background: rgba(100,116,139,0.14);
+      color: #64748b;
+      border: 1px solid rgba(100,116,139,0.24);
+    }
+    .label-after {
+      background: rgba(56,189,248,0.12);
+      color: #7dd3fc;
+      border: 1px solid rgba(56,189,248,0.28);
+    }
+
+    /* BEFORE 패널 */
+    .search-mock {
+      display: flex; align-items: center; gap: calc(10 * var(--u));
+      background: rgba(15, 23, 42, 0.60);
+      border: 1px solid rgba(71,85,105,0.40);
+      border-radius: calc(8 * var(--u));
+      padding: calc(12 * var(--u)) calc(16 * var(--u));
+      margin-bottom: calc(10 * var(--u));
+      flex-shrink: 0;
+    }
+    .search-ico {
+      width: calc(18 * var(--u)); height: calc(18 * var(--u));
+      border: calc(2.5 * var(--u)) solid #374151;
+      border-radius: 50%;
+      position: relative; flex-shrink: 0;
+    }
+    .search-ico::after {
+      content: '';
+      position: absolute;
+      bottom: calc(-5 * var(--u)); right: calc(-5 * var(--u));
+      width: calc(7 * var(--u)); height: calc(2.5 * var(--u));
+      background: #374151;
+      border-radius: calc(2 * var(--u));
+      transform: rotate(45deg);
+    }
+    .search-ph { font-size: calc(15 * var(--u)); color: #374151; flex: 1; }
+    .field-tag {
+      background: rgba(71,85,105,0.20);
+      border: 1px solid rgba(71,85,105,0.30);
+      border-radius: calc(4 * var(--u));
+      padding: calc(2 * var(--u)) calc(8 * var(--u));
+      font-size: calc(11 * var(--u)); color: #374151; font-weight: 600;
+    }
+
+    .no-result {
+      display: flex; align-items: center; gap: calc(10 * var(--u));
+      background: rgba(239,68,68,0.04);
+      border: 1px solid rgba(239,68,68,0.16);
+      border-radius: calc(6 * var(--u));
+      padding: calc(9 * var(--u)) calc(14 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+      flex-shrink: 0;
+    }
+    .no-result-warn {
+      width: calc(16 * var(--u)); height: calc(16 * var(--u));
+      border: calc(2 * var(--u)) solid #475569;
+      border-radius: calc(2 * var(--u));
+      display: flex; align-items: center; justify-content: center;
+      font-size: calc(11 * var(--u)); font-weight: 700; color: #475569;
+      flex-shrink: 0;
+    }
+    .no-result-text { font-size: calc(14 * var(--u)); color: #475569; }
+
+    .pain-list {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+      gap: calc(12 * var(--u));
+      justify-content: flex-start;
+    }
+    .pain-item {
+      display: flex; align-items: flex-start; gap: calc(10 * var(--u));
+    }
+    .pain-dot {
+      width: calc(6 * var(--u)); height: calc(6 * var(--u));
+      border-radius: 50%; background: #374151;
+      flex-shrink: 0; margin-top: calc(7 * var(--u));
+    }
+    .pain-text { font-size: calc(17 * var(--u)); color: #475569; line-height: 1.45; }
+
+    /* AFTER 패널 */
+    .search-mock-ai {
+      display: flex; align-items: center; gap: calc(10 * var(--u));
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(56,189,248,0.32);
+      border-radius: calc(8 * var(--u));
+      padding: calc(12 * var(--u)) calc(16 * var(--u));
+      margin-bottom: calc(10 * var(--u));
+      flex-shrink: 0;
+      box-shadow: 0 0 calc(14 * var(--u)) rgba(56,189,248,0.12);
+    }
+    .search-ico-ai {
+      width: calc(18 * var(--u)); height: calc(18 * var(--u));
+      border: calc(2.5 * var(--u)) solid #38bdf8;
+      border-radius: 50%;
+      position: relative; flex-shrink: 0;
+    }
+    .search-ico-ai::after {
+      content: '';
+      position: absolute;
+      bottom: calc(-5 * var(--u)); right: calc(-5 * var(--u));
+      width: calc(7 * var(--u)); height: calc(2.5 * var(--u));
+      background: #38bdf8;
+      border-radius: calc(2 * var(--u));
+      transform: rotate(45deg);
+    }
+    .search-query { font-size: calc(17 * var(--u)); color: #e2e8f0; font-weight: 500; flex: 1; }
+    .cursor {
+      width: calc(2 * var(--u)); height: calc(18 * var(--u));
+      background: #38bdf8;
+      animation: blink 1s step-end infinite;
+      flex-shrink: 0;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .query-chips {
+      display: flex; flex-wrap: wrap; gap: calc(7 * var(--u));
+      margin-bottom: calc(12 * var(--u));
+      flex-shrink: 0;
+    }
+    .query-chip {
+      background: rgba(56,189,248,0.07);
+      border: 1px solid rgba(56,189,248,0.18);
+      border-radius: calc(20 * var(--u));
+      padding: calc(4 * var(--u)) calc(12 * var(--u));
+      font-size: calc(13 * var(--u)); color: #7dd3fc; font-weight: 500;
+    }
+
+    .result-card {
+      flex: 1; min-height: 0;
+      background: linear-gradient(135deg, rgba(56,189,248,0.06) 0%, rgba(96,165,250,0.10) 100%);
+      border: 1px solid rgba(56,189,248,0.24);
+      border-radius: calc(8 * var(--u));
+      padding: calc(16 * var(--u)) calc(18 * var(--u));
+      display: flex; flex-direction: column; gap: calc(10 * var(--u));
+    }
+    .result-header {
+      display: flex; align-items: center; gap: calc(14 * var(--u));
+      flex-shrink: 0;
+    }
+    .avatar {
+      width: calc(46 * var(--u)); height: calc(46 * var(--u));
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+      border: calc(2 * var(--u)) solid rgba(56,189,248,0.32);
+      display: flex; align-items: center; justify-content: center;
+      font-size: calc(19 * var(--u)); font-weight: 800; color: #bae6fd;
+      flex-shrink: 0;
+    }
+    .result-name { font-size: calc(22 * var(--u)); font-weight: 800; color: #f1f5f9; }
+    .result-dept { font-size: calc(14 * var(--u)); color: #7dd3fc; margin-top: calc(2 * var(--u)); }
+
+    .result-meta {
+      display: flex; flex-wrap: wrap; gap: calc(7 * var(--u));
+      flex-shrink: 0;
+    }
+    .result-tag {
+      background: rgba(56,189,248,0.07);
+      border: 1px solid rgba(56,189,248,0.16);
+      border-radius: calc(4 * var(--u));
+      padding: calc(3 * var(--u)) calc(10 * var(--u));
+      font-size: calc(13 * var(--u)); color: #94a3b8;
+    }
+
+    .result-match {
+      font-size: calc(13 * var(--u)); color: #64748b; line-height: 1.55;
+    }
+    .hl { color: #38bdf8; font-weight: 600; }
+
+    /* ── 하단 로그 분석 스트립 ── */
+    .log-strip {
+      flex-shrink: 0;
+      display: flex;
+      gap: calc(12 * var(--u));
+      align-items: stretch;
+    }
+
+    .log-header-label {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(56,189,248,0.08);
+      border: 1px solid rgba(56,189,248,0.20);
+      border-radius: calc(8 * var(--u));
+      padding: calc(0) calc(14 * var(--u));
+      font-size: calc(12 * var(--u)); font-weight: 700; color: #38bdf8;
+      letter-spacing: 0.14em;
+      writing-mode: horizontal-tb;
+    }
+
+    .log-card {
+      flex: 1;
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(56,189,248,0.12);
+      border-radius: calc(8 * var(--u));
+      padding: calc(11 * var(--u)) calc(15 * var(--u));
+      display: flex; flex-direction: column; gap: calc(3 * var(--u));
+    }
+    .log-card-label {
+      font-size: calc(11 * var(--u)); font-weight: 600; color: #475569;
+      letter-spacing: 0.10em; text-transform: uppercase;
+    }
+    .log-card-val {
+      font-size: calc(24 * var(--u)); font-weight: 800; color: #bae6fd;
+      letter-spacing: -0.01em; line-height: 1;
+    }
+    .log-card-sub { font-size: calc(11 * var(--u)); color: #475569; }
+
+    .log-keywords {
+      flex: 2.2;
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(56,189,248,0.12);
+      border-radius: calc(8 * var(--u));
+      padding: calc(11 * var(--u)) calc(15 * var(--u));
+      display: flex; flex-direction: column; gap: calc(6 * var(--u));
+    }
+    .log-kw-label {
+      font-size: calc(11 * var(--u)); font-weight: 600; color: #475569;
+      letter-spacing: 0.10em; text-transform: uppercase;
+    }
+    .kw-list { display: flex; flex-wrap: wrap; gap: calc(7 * var(--u)); align-items: center; }
+    .kw-chip {
+      background: rgba(56,189,248,0.07);
+      border: 1px solid rgba(56,189,248,0.18);
+      border-radius: calc(20 * var(--u));
+      padding: calc(3 * var(--u)) calc(10 * var(--u));
+      font-size: calc(13 * var(--u)); color: #7dd3fc;
+    }
+
+    .built-badge {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(245,158,11,0.10) 100%);
+      border: 1px solid rgba(251,191,36,0.26);
+      border-radius: calc(8 * var(--u));
+      padding: calc(10 * var(--u)) calc(18 * var(--u));
+      gap: calc(4 * var(--u));
+      text-align: center;
+    }
+    .built-icon {
+      width: calc(28 * var(--u)); height: calc(28 * var(--u));
+      border: calc(2 * var(--u)) solid rgba(251,191,36,0.50);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: calc(14 * var(--u)); font-weight: 900; color: #fbbf24;
+    }
+    .built-text { font-size: calc(13 * var(--u)); font-weight: 700; color: #fbbf24; line-height: 1.35; }
+    .built-sub { font-size: calc(11 * var(--u)); color: #78716c; text-align: center; }
+
+    /* 페이지 번호 */
+    .slide-foot {
+      position: absolute; left: calc(120 * var(--u)); bottom: calc(36 * var(--u));
+      z-index: 2; font-size: calc(13 * var(--u)); font-weight: 500;
+      letter-spacing: 0.22em; color: #64748b;
+    }
+    .slide-foot .cur { color: #94a3b8; }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">03. 고용노동부 AX Project 소개</div>
+        <div class="rule"></div>
+
+        <div class="title-block">
+          <h1 class="main-title">기존 시스템 위에, 직원이 직접 쌓은 첫 AI</h1>
+          <div class="main-sub">외부 솔루션 도입이 아닌 — 내부 인재의 자발적 Bottom-up AX</div>
+        </div>
+
+        <!-- ── Before / After ── -->
+        <div class="ba-grid">
+
+          <!-- BEFORE -->
+          <div class="panel panel-before">
+            <span class="panel-label label-before">BEFORE</span>
+
+            <div class="search-mock">
+              <div class="search-ico"></div>
+              <span class="search-ph">이름 또는 전화번호 입력...</span>
+              <span class="field-tag">이름만</span>
+              <span class="field-tag">전화번호만</span>
+            </div>
+
+            <div class="no-result">
+              <div class="no-result-warn">!</div>
+              <span class="no-result-text">"급여 담당자" — 검색 결과 없음</span>
+            </div>
+
+            <div class="pain-list">
+              <div class="pain-item">
+                <div class="pain-dot"></div>
+                <div class="pain-text">이름을 정확히 알아야만 검색 가능</div>
+              </div>
+              <div class="pain-item">
+                <div class="pain-dot"></div>
+                <div class="pain-text">업무·부서명으로는 담당자 찾기 불가</div>
+              </div>
+              <div class="pain-item">
+                <div class="pain-dot"></div>
+                <div class="pain-text">전화·메신저를 통한 수소문에 의존</div>
+              </div>
+              <div class="pain-item">
+                <div class="pain-dot"></div>
+                <div class="pain-text">신규 직원·타 부서 간 업무 연결 어려움</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AFTER -->
+          <div class="panel panel-after">
+            <span class="panel-label label-after">AFTER · AI 직원검색</span>
+
+            <div class="search-mock-ai">
+              <div class="search-ico-ai"></div>
+              <span class="search-query">급여 담당자</span>
+              <div class="cursor"></div>
+            </div>
+
+            <div class="query-chips">
+              <span class="query-chip">노사관계 업무 담당자</span>
+              <span class="query-chip">인사팀 팀장</span>
+              <span class="query-chip">근로기준 법령 담당</span>
+              <span class="query-chip">안전보건 담당자</span>
+            </div>
+
+            <div class="result-card">
+              <div class="result-header">
+                <div class="avatar">홍</div>
+                <div>
+                  <div class="result-name">홍 ○ ○</div>
+                  <div class="result-dept">고용정책실 · 급여기획과 · 사무관</div>
+                </div>
+              </div>
+              <div class="result-meta">
+                <span class="result-tag">02-000-0000</span>
+                <span class="result-tag">example@moel.go.kr</span>
+              </div>
+              <div class="result-match">
+                매칭 근거: <span class="hl">급여</span> 관련 법령·정책 담당 ·
+                <span class="hl">급여기획과</span> 소속 · 관련 업무 이력
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 로그 분석 ── -->
+        <div class="log-strip">
+          <div class="log-header-label">LOG 분석</div>
+
+          <div class="log-card">
+            <div class="log-card-label">누적 이용 건수</div>
+            <div class="log-card-val">집계 중</div>
+            <div class="log-card-sub">운영 개시 이후</div>
+          </div>
+
+          <div class="log-card">
+            <div class="log-card-label">일 평균 이용</div>
+            <div class="log-card-val">집계 중</div>
+            <div class="log-card-sub">평일 기준</div>
+          </div>
+
+          <div class="log-keywords">
+            <div class="log-kw-label">주요 검색 유형</div>
+            <div class="kw-list">
+              <span class="kw-chip">업무명</span>
+              <span class="kw-chip">부서명</span>
+              <span class="kw-chip">직책</span>
+              <span class="kw-chip">담당 법령</span>
+              <span class="kw-chip">프로젝트</span>
+            </div>
+          </div>
+
+          <div class="built-badge">
+            <div class="built-icon">★</div>
+            <div class="built-text">내부 직원<br>직접 구현</div>
+            <div class="built-sub">기존 내부포털에 통합</div>
+          </div>
+        </div>
+      </main>
+
+      <div class="slide-foot"><span class="cur">14</span> / 18</div>
+
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 13 — 산업안전 AI | 고용노동부 AX</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* ── 상단 헤더 ── */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u)); left: calc(90 * var(--u)); right: calc(90 * var(--u));
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 2;
+    }
+    .brand { display: flex; align-items: center; gap: calc(18 * var(--u)); }
+    .brand-mark {
+      width: calc(64 * var(--u)); height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+    .brand-text .ko { font-size: calc(26 * var(--u)); font-weight: 700; color: #f1f5f9; letter-spacing: 0.01em; }
+    .brand-text .en { font-size: calc(12 * var(--u)); font-weight: 500; color: #94a3b8; letter-spacing: 0.14em; text-transform: uppercase; margin-top: calc(2 * var(--u)); }
+    .venue { text-align: right; line-height: 1.4; }
+    .venue-label { display: block; font-size: calc(13 * var(--u)); color: #94a3b8; font-weight: 500; letter-spacing: 0.18em; margin-bottom: calc(6 * var(--u)); }
+    .venue-text { font-size: calc(20 * var(--u)); color: #e2e8f0; font-weight: 500; }
+
+    /* ── 본문 ── */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u)); right: calc(90 * var(--u));
+      top: calc(190 * var(--u)); bottom: calc(76 * var(--u));
+      z-index: 2;
+      display: flex; flex-direction: column;
+    }
+
+    .eyebrow { font-size: calc(22 * var(--u)); font-weight: 600; letter-spacing: 0.18em; color: #7dd3fc; }
+    .rule {
+      width: calc(96 * var(--u)); height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(14 * var(--u)) 0;
+      border-radius: calc(2 * var(--u));
+    }
+
+    .title-row {
+      display: flex; align-items: baseline; gap: calc(16 * var(--u));
+      margin-bottom: calc(16 * var(--u));
+      flex-shrink: 0;
+    }
+    .main-title {
+      font-size: calc(46 * var(--u)); font-weight: 800; color: #f8fafc;
+      letter-spacing: -0.02em; line-height: 1.1;
+    }
+
+    /* ── 메인 2열 ── */
+    .main-grid {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(20 * var(--u));
+    }
+
+    .panel {
+      border-radius: calc(10 * var(--u));
+      padding: calc(20 * var(--u)) calc(22 * var(--u));
+      display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+    }
+    .panel-l {
+      background: linear-gradient(135deg, rgba(56,189,248,0.05) 0%, rgba(96,165,250,0.09) 100%);
+      border: 1px solid rgba(56,189,248,0.22);
+      border-left: calc(3 * var(--u)) solid #38bdf8;
+      box-shadow: inset calc(3 * var(--u)) 0 calc(16 * var(--u)) rgba(56,189,248,0.12);
+    }
+    .panel-r {
+      background: linear-gradient(135deg, rgba(52,211,153,0.04) 0%, rgba(52,211,153,0.08) 100%);
+      border: 1px solid rgba(52,211,153,0.22);
+      border-left: calc(3 * var(--u)) solid #34d399;
+      box-shadow: inset calc(3 * var(--u)) 0 calc(16 * var(--u)) rgba(52,211,153,0.10);
+    }
+
+    .panel-title {
+      font-size: calc(18 * var(--u)); font-weight: 700;
+      letter-spacing: 0.04em; margin-bottom: calc(5 * var(--u));
+      flex-shrink: 0;
+    }
+    .panel-l .panel-title { color: #7dd3fc; }
+    .panel-r .panel-title { color: #6ee7b7; }
+
+    .panel-sub {
+      font-size: calc(13 * var(--u)); color: #64748b;
+      margin-bottom: calc(14 * var(--u)); flex-shrink: 0; line-height: 1.4;
+    }
+
+    /* ── 좌: 산재 예측 AI ── */
+
+    .kpi-mini {
+      display: flex; gap: calc(10 * var(--u));
+      flex-shrink: 0; margin-bottom: calc(14 * var(--u));
+    }
+    .kpi-chip {
+      flex: 1;
+      background: rgba(56,189,248,0.07);
+      border: 1px solid rgba(56,189,248,0.20);
+      border-radius: calc(6 * var(--u));
+      padding: calc(9 * var(--u)) calc(10 * var(--u));
+      text-align: center;
+    }
+    .kpi-chip-val {
+      font-size: calc(24 * var(--u)); font-weight: 800; color: #bae6fd;
+      line-height: 1.1; letter-spacing: -0.01em;
+    }
+    .kpi-chip-label {
+      font-size: calc(11 * var(--u)); color: #64748b; margin-top: calc(3 * var(--u));
+    }
+
+    .bar-section {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .bar-item { flex-shrink: 0; }
+    .bar-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: calc(5 * var(--u));
+    }
+    .bar-name { font-size: calc(13 * var(--u)); font-weight: 600; color: #94a3b8; }
+    .bar-name.ai { color: #bae6fd; }
+    .bar-value { font-size: calc(14 * var(--u)); font-weight: 700; color: #64748b; white-space: nowrap; }
+    .bar-value.ai { color: #7dd3fc; font-size: calc(16 * var(--u)); }
+    .bar-track {
+      height: calc(20 * var(--u));
+      background: rgba(56,189,248,0.07);
+      border-radius: calc(4 * var(--u)); overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%; border-radius: calc(4 * var(--u));
+      position: relative;
+    }
+    .bar-fill.before { background: linear-gradient(90deg, #374151 0%, #4b5563 100%); }
+    .bar-fill.ai-bar {
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      box-shadow: 0 0 calc(10 * var(--u)) rgba(56,189,248,0.35);
+    }
+    .bar-fill.limit {
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(125,211,252,0.15) 0px, rgba(125,211,252,0.15) 6px,
+        transparent 6px, transparent 10px
+      );
+    }
+    .bar-note { font-size: calc(11 * var(--u)); color: #374151; margin-top: calc(3 * var(--u)); }
+    .delta-row {
+      display: flex; align-items: center; gap: calc(8 * var(--u));
+      flex-shrink: 0;
+    }
+    .delta-chip {
+      display: inline-flex; align-items: center; gap: calc(5 * var(--u));
+      background: rgba(56,189,248,0.10);
+      border: 1px solid rgba(56,189,248,0.28);
+      border-radius: calc(4 * var(--u));
+      padding: calc(3 * var(--u)) calc(9 * var(--u));
+      font-size: calc(13 * var(--u)); color: #7dd3fc; font-weight: 600;
+    }
+    .delta-val { font-size: calc(18 * var(--u)); font-weight: 900; color: #bae6fd; }
+
+    .life-card {
+      flex-shrink: 0;
+      margin-top: calc(14 * var(--u));
+      background: linear-gradient(135deg, rgba(56,189,248,0.10) 0%, rgba(125,211,252,0.16) 100%);
+      border: 1px solid rgba(125,211,252,0.38);
+      border-radius: calc(8 * var(--u));
+      padding: calc(13 * var(--u)) calc(18 * var(--u));
+      display: flex; align-items: center; gap: calc(18 * var(--u));
+      box-shadow: 0 0 calc(22 * var(--u)) rgba(56,189,248,0.18);
+    }
+    .life-num {
+      font-size: calc(58 * var(--u)); font-weight: 900; color: #bae6fd;
+      letter-spacing: -0.03em; line-height: 1; flex-shrink: 0;
+      text-shadow: 0 0 calc(22 * var(--u)) rgba(125,211,252,0.45);
+    }
+    .life-unit { font-size: calc(28 * var(--u)); color: #7dd3fc; font-weight: 700; }
+    .life-desc { font-size: calc(13 * var(--u)); color: #94a3b8; line-height: 1.6; }
+    .life-desc strong { color: #bae6fd; font-weight: 700; }
+
+    /* ── 우: 사진 기반 AI ── */
+
+    .flow-row {
+      display: flex; align-items: stretch; gap: calc(8 * var(--u));
+      flex-shrink: 0; margin-bottom: calc(14 * var(--u));
+    }
+    .flow-step {
+      flex: 1;
+      background: rgba(52,211,153,0.06);
+      border: 1px solid rgba(52,211,153,0.20);
+      border-radius: calc(6 * var(--u));
+      padding: calc(8 * var(--u)) calc(10 * var(--u));
+      text-align: center;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .flow-step-num {
+      font-size: calc(10 * var(--u)); font-weight: 700; color: #6ee7b7;
+      letter-spacing: 0.10em; margin-bottom: calc(4 * var(--u));
+    }
+    .flow-step-text {
+      font-size: calc(13 * var(--u)); font-weight: 600; color: #e2e8f0; line-height: 1.3;
+    }
+    .flow-arrow {
+      font-size: calc(18 * var(--u)); color: #334155;
+      display: flex; align-items: center; flex-shrink: 0;
+    }
+
+    .risk-grid {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(9 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+    }
+    .risk-card {
+      background: linear-gradient(135deg, rgba(239,68,68,0.04) 0%, rgba(251,146,60,0.05) 100%);
+      border: 1px solid rgba(239,68,68,0.18);
+      border-left: calc(3 * var(--u)) solid #f87171;
+      border-radius: calc(6 * var(--u));
+      padding: calc(11 * var(--u)) calc(13 * var(--u));
+      display: flex; flex-direction: column; min-height: 0;
+    }
+    .risk-badge {
+      display: inline-block;
+      background: rgba(248,113,113,0.14);
+      border-radius: calc(3 * var(--u));
+      padding: calc(2 * var(--u)) calc(7 * var(--u));
+      font-size: calc(10 * var(--u)); font-weight: 700; color: #fca5a5;
+      letter-spacing: 0.04em;
+      margin-bottom: calc(6 * var(--u));
+      flex-shrink: 0; align-self: flex-start;
+    }
+    .risk-name {
+      font-size: calc(13 * var(--u)); font-weight: 700; color: #f1f5f9;
+      line-height: 1.35; margin-bottom: calc(5 * var(--u));
+      flex: 1;
+    }
+    .risk-action {
+      font-size: calc(11 * var(--u)); color: #64748b; line-height: 1.4;
+    }
+
+    .demo-btn {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      gap: calc(12 * var(--u));
+      padding: calc(13 * var(--u)) calc(24 * var(--u));
+      background: linear-gradient(135deg, rgba(52,211,153,0.10) 0%, rgba(52,211,153,0.18) 100%);
+      border: 1px solid rgba(52,211,153,0.42);
+      border-radius: calc(8 * var(--u));
+      text-decoration: none; cursor: pointer;
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(52,211,153,0.15);
+      transition: box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .demo-btn:hover {
+      background: linear-gradient(135deg, rgba(52,211,153,0.18) 0%, rgba(52,211,153,0.28) 100%);
+      box-shadow: 0 0 calc(32 * var(--u)) rgba(52,211,153,0.30);
+    }
+    .demo-dot {
+      width: calc(11 * var(--u)); height: calc(11 * var(--u));
+      border-radius: 50%; background: #34d399; flex-shrink: 0;
+      box-shadow: 0 0 calc(8 * var(--u)) rgba(52,211,153,0.7);
+      animation: live 1.6s ease-in-out infinite;
+    }
+    @keyframes live {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .demo-label {
+      font-size: calc(17 * var(--u)); font-weight: 700; color: #6ee7b7; letter-spacing: 0.03em;
+    }
+    .demo-url {
+      font-size: calc(13 * var(--u)); font-weight: 500; color: #34d399;
+      opacity: 0.75; letter-spacing: 0.04em;
+    }
+
+    /* 페이지 번호 */
+    .slide-foot {
+      position: absolute; left: calc(120 * var(--u)); bottom: calc(36 * var(--u));
+      z-index: 2; font-size: calc(13 * var(--u)); font-weight: 500;
+      letter-spacing: 0.22em; color: #64748b;
+    }
+    .slide-foot .cur { color: #94a3b8; }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">03. 고용노동부 AX Project 소개</div>
+        <div class="rule"></div>
+
+        <div class="title-row">
+          <h1 class="main-title">산업안전 AI — 예측에서 현장까지</h1>
+        </div>
+
+        <div class="main-grid">
+
+          <!-- ── 좌: 산재 예측 AI ── -->
+          <div class="panel panel-l">
+            <div class="panel-title">산재 예측 AI</div>
+            <div class="panel-sub">300만 사업장 중 데이터로 찾아낸 고위험 0.6% — 인력·예산을 거기에 집중합니다</div>
+
+            <div class="kpi-mini">
+              <div class="kpi-chip">
+                <div class="kpi-chip-val">300만</div>
+                <div class="kpi-chip-label">전체 사업장</div>
+              </div>
+              <div class="kpi-chip">
+                <div class="kpi-chip-val">→ 1.9만</div>
+                <div class="kpi-chip-label">AI 선별 고위험</div>
+              </div>
+              <div class="kpi-chip">
+                <div class="kpi-chip-val">0.6%</div>
+                <div class="kpi-chip-label">선택과 집중</div>
+              </div>
+            </div>
+
+            <!-- 포착량 비교 바 차트 -->
+            <div class="bar-section">
+              <div class="bar-item">
+                <div class="bar-meta">
+                  <span class="bar-name">기존 방식 &nbsp;<span style="color:#374151;font-size:calc(11 * var(--u));font-weight:500">현장 경험 기반 선별</span></span>
+                  <span class="bar-value">193만일 · 17.6%</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill before" style="width:17.6%"></div>
+                </div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-meta">
+                  <span class="bar-name ai">AI 방식 &nbsp;<span style="color:#38bdf8;font-size:calc(12 * var(--u));font-weight:700">▲ 53% 개선</span></span>
+                  <span class="bar-value ai">294만일 · 26.9%</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill ai-bar" style="width:26.9%"></div>
+                </div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-meta">
+                  <span class="bar-name" style="color:#374151">이론적 최대치</span>
+                  <span class="bar-value" style="color:#374151">836만일 · 76.4%</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill limit" style="width:76.4%"></div>
+                </div>
+              </div>
+
+              <div class="bar-note">* 2025년 전체 근로손실일수 1,094만일 기준 | 학습 데이터: 사업장 기초정보, 산재 이력, 감독 이력, 위험기계 보유현황 등</div>
+            </div>
+
+            <!-- 136명 하이라이트 -->
+            <div class="life-card">
+              <div class="life-num">136<span class="life-unit">명</span></div>
+              <div class="life-desc">
+                AI 포착량 증가분 <strong>101만일</strong>을 생명으로 환산한 수치<br>
+                <span style="color:#64748b;font-size:calc(11 * var(--u))">사망재해 1건당 평균 근로손실일수 7,500일 기준</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── 우: 사진 기반 위험요소 점검 AI ── -->
+          <div class="panel panel-r">
+            <div class="panel-title">사진 기반 위험요소 점검 AI</div>
+            <div class="panel-sub">현장 사진 한 장을 올리면 위험요소와 조치사항이 즉시 정리됩니다</div>
+
+            <!-- 프로세스 흐름 -->
+            <div class="flow-row">
+              <div class="flow-step">
+                <div class="flow-step-num">STEP 1</div>
+                <div class="flow-step-text">현장 사진<br>업로드</div>
+              </div>
+              <div class="flow-arrow">›</div>
+              <div class="flow-step">
+                <div class="flow-step-num">STEP 2</div>
+                <div class="flow-step-text">AI 위험요소<br>자동 분석</div>
+              </div>
+              <div class="flow-arrow">›</div>
+              <div class="flow-step">
+                <div class="flow-step-num">STEP 3</div>
+                <div class="flow-step-text">조치사항<br>즉시 제시</div>
+              </div>
+            </div>
+
+            <!-- 실제 식별 사례 2×2 -->
+            <div class="risk-grid">
+              <div class="risk-card">
+                <div class="risk-badge">절단 · 베임</div>
+                <div class="risk-name">톱날 상부 가드 미설치</div>
+                <div class="risk-action">상부 가드 즉시 설치 · 푸시 스틱 사용 의무화</div>
+              </div>
+              <div class="risk-card">
+                <div class="risk-badge">화재 · 분진 폭발</div>
+                <div class="risk-name">분진 집진 설비 미흡</div>
+                <div class="risk-action">집진 설비 가동 점검 · 바닥 톱밥 즉시 청소</div>
+              </div>
+              <div class="risk-card">
+                <div class="risk-badge">낙하 · 충돌</div>
+                <div class="risk-name">작업대 자재 무질서 배열</div>
+                <div class="risk-action">정리 기준 수립 · 자재 적재 높이 제한 표시</div>
+              </div>
+              <div class="risk-card">
+                <div class="risk-badge">안구 손상 · 소음성 난청</div>
+                <div class="risk-name">보호안경·귀마개 미착용</div>
+                <div class="risk-action">보호구 착용 구역 지정 · 미착용 시 작업중지</div>
+              </div>
+            </div>
+
+            <!-- 시연 버튼 -->
+            <a href="https://moellab.info" target="_blank" class="demo-btn">
+              <span class="demo-dot"></span>
+              <span class="demo-label">직접 시연하기</span>
+              <span class="demo-url">moellab.info</span>
+            </a>
+          </div>
+
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">13</span> &nbsp;/&nbsp; 18
+      </footer>
+
+    </div>
+  </div>
+</body>
+</html>

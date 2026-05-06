@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 17 — 지속가능한 혁신 | 고용노동부 AX</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width:100%; height:100%; background:#050a16; font-family:'Pretendard','Malgun Gothic','맑은 고딕',-apple-system,sans-serif; overflow:hidden; -webkit-font-smoothing:antialiased; }
+    .slide-wrap { width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }
+    .slide {
+      width:min(100vw, calc(100vh * 16/9));
+      height:min(100vh, calc(100vw * 9/16));
+      background:linear-gradient(135deg,#0b1220 0%,#0f1a2e 50%,#0b1220 100%);
+      color:#f1f5f9; position:relative; overflow:hidden;
+      --u: calc(min(100vw, calc(100vh * 16/9)) / 1920);
+    }
+    .slide::before {
+      content:''; position:absolute; left:0; top:0; bottom:0;
+      width:calc(8 * var(--u));
+      background:linear-gradient(180deg,#38bdf8 0%,#60a5fa 50%,#38bdf8 100%);
+      box-shadow:0 0 calc(20 * var(--u)) rgba(96,165,250,0.45);
+    }
+    .slide::after {
+      content:''; position:absolute; inset:0;
+      background-image:linear-gradient(rgba(148,163,184,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.02) 1px,transparent 1px);
+      background-size:calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events:none;
+    }
+
+    /* Header */
+    .slide-top { position:absolute; top:calc(70 * var(--u)); left:calc(90 * var(--u)); right:calc(90 * var(--u)); display:flex; justify-content:space-between; align-items:center; z-index:2; }
+    .brand { display:flex; align-items:center; gap:calc(18 * var(--u)); }
+    .brand-mark { width:calc(64 * var(--u)); height:calc(64 * var(--u)); background:url('../고용노동부.png') center/contain no-repeat; flex-shrink:0; }
+    .brand-text .ko { font-size:calc(26 * var(--u)); font-weight:700; color:#f1f5f9; letter-spacing:0.01em; }
+    .brand-text .en { font-size:calc(12 * var(--u)); font-weight:500; color:#94a3b8; letter-spacing:0.14em; text-transform:uppercase; margin-top:calc(2 * var(--u)); }
+    .venue { text-align:right; line-height:1.4; }
+    .venue-label { display:block; font-size:calc(13 * var(--u)); color:#94a3b8; font-weight:500; letter-spacing:0.18em; margin-bottom:calc(6 * var(--u)); }
+    .venue-text { font-size:calc(20 * var(--u)); color:#e2e8f0; font-weight:500; }
+
+    /* Body */
+    .slide-body { position:absolute; left:calc(120 * var(--u)); right:calc(90 * var(--u)); top:calc(190 * var(--u)); bottom:calc(76 * var(--u)); z-index:2; display:flex; flex-direction:column; }
+    .eyebrow { font-size:calc(22 * var(--u)); font-weight:600; letter-spacing:0.18em; color:#7dd3fc; flex-shrink:0; }
+    .rule { width:calc(96 * var(--u)); height:calc(4 * var(--u)); background:linear-gradient(90deg,#38bdf8 0%,#60a5fa 100%); margin:calc(14 * var(--u)) 0; border-radius:calc(2 * var(--u)); flex-shrink:0; }
+
+    /* Title row */
+    .title-row { display:flex; align-items:center; gap:calc(20 * var(--u)); flex-shrink:0; margin-bottom:calc(16 * var(--u)); }
+    .p-num-lg { font-size:calc(80 * var(--u)); font-weight:900; color:rgba(52,211,153,0.18); line-height:1; flex-shrink:0; letter-spacing:-0.04em; }
+    .title-text .main-title { font-size:calc(48 * var(--u)); font-weight:900; color:#f8fafc; letter-spacing:-0.02em; line-height:1.1; margin-bottom:calc(6 * var(--u)); }
+    .title-text .main-sub { font-size:calc(17 * var(--u)); color:#64748b; line-height:1.5; }
+
+    /* Flywheel wrapper */
+    .flywheel-wrap { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
+    .flywheel-svg { max-width:100%; max-height:100%; }
+
+    /* Footer */
+    .slide-foot { position:absolute; left:calc(120 * var(--u)); bottom:calc(36 * var(--u)); z-index:2; font-size:calc(13 * var(--u)); font-weight:500; letter-spacing:0.22em; color:#64748b; }
+    .slide-foot .cur { color:#94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="slide-wrap"><div class="slide">
+
+    <header class="slide-top">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <div class="ko">고용노동부</div>
+          <div class="en">Ministry of Employment and Labor</div>
+        </div>
+      </div>
+      <div class="venue">
+        <span class="venue-label">장소</span>
+        <span class="venue-text">국가인공지능전략위원회 세미나</span>
+      </div>
+    </header>
+
+    <main class="slide-body">
+      <div class="eyebrow">04. 고용노동부 AX 추진 방향</div>
+      <div class="rule"></div>
+
+      <!-- Title row -->
+      <div class="title-row">
+        <div class="p-num-lg">③</div>
+        <div class="title-text">
+          <div class="main-title">지속가능한 혁신</div>
+          <div class="main-sub">업무 결과가 데이터로 축적되고, 축적된 데이터가 다시 업무를 개선하는 선순환</div>
+        </div>
+      </div>
+
+      <!-- Flywheel SVG -->
+      <div class="flywheel-wrap">
+        <svg class="flywheel-svg" viewBox="0 0 920 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="rgba(52,211,153,0.70)"/>
+            </marker>
+          </defs>
+
+          <!-- Outer glow ring -->
+          <circle cx="460" cy="200" r="140" fill="none" stroke="rgba(52,211,153,0.06)" stroke-width="44"/>
+          <circle cx="460" cy="200" r="140" fill="none" stroke="rgba(52,211,153,0.12)" stroke-width="1.5"/>
+
+          <!-- Curved arrows (clockwise) -->
+          <!-- Top: 업무수행 → 데이터축적 -->
+          <path d="M 248 72 Q 460 48 668 72"
+            stroke="rgba(52,211,153,0.55)" stroke-width="2" fill="none"
+            marker-end="url(#arr-g)" stroke-dasharray="8,5"/>
+          <!-- Right: 데이터축적 → AI분석 -->
+          <path d="M 792 128 Q 820 200 792 272"
+            stroke="rgba(52,211,153,0.55)" stroke-width="2" fill="none"
+            marker-end="url(#arr-g)" stroke-dasharray="8,5"/>
+          <!-- Bottom: AI분석 → 업무개선 -->
+          <path d="M 668 328 Q 460 352 248 328"
+            stroke="rgba(52,211,153,0.55)" stroke-width="2" fill="none"
+            marker-end="url(#arr-g)" stroke-dasharray="8,5"/>
+          <!-- Left: 업무개선 → 업무수행 -->
+          <path d="M 128 272 Q 100 200 128 128"
+            stroke="rgba(52,211,153,0.55)" stroke-width="2" fill="none"
+            marker-end="url(#arr-g)" stroke-dasharray="8,5"/>
+
+          <!-- Arrow flow labels -->
+          <text x="460" y="36" text-anchor="middle" fill="rgba(52,211,153,0.50)" font-size="14" font-family="Pretendard,sans-serif">결과 데이터</text>
+          <text x="460" y="376" text-anchor="middle" fill="rgba(52,211,153,0.50)" font-size="14" font-family="Pretendard,sans-serif">인사이트 · 개선 방향</text>
+
+          <!-- Node: 업무 수행 (top-left) -->
+          <rect x="18" y="30" width="222" height="90" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.28)" stroke-width="1.5"/>
+          <rect x="18" y="30" width="4" height="90" rx="2" fill="#34d399"/>
+          <text x="130" y="72" text-anchor="middle" fill="#6ee7b7" font-size="21" font-weight="700" font-family="Pretendard,sans-serif">업무 수행</text>
+          <text x="130" y="98" text-anchor="middle" fill="#475569" font-size="14" font-family="Pretendard,sans-serif">서비스 · 감독 · 상담 · 행정</text>
+
+          <!-- Node: 데이터 축적 (top-right) -->
+          <rect x="680" y="30" width="222" height="90" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.28)" stroke-width="1.5"/>
+          <rect x="680" y="30" width="4" height="90" rx="2" fill="#34d399"/>
+          <text x="792" y="72" text-anchor="middle" fill="#6ee7b7" font-size="21" font-weight="700" font-family="Pretendard,sans-serif">데이터 축적</text>
+          <text x="792" y="98" text-anchor="middle" fill="#475569" font-size="14" font-family="Pretendard,sans-serif">로그 · 기록 · 결과 구조화</text>
+
+          <!-- Node: AI 분석·학습 (bottom-right) -->
+          <rect x="680" y="280" width="222" height="90" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.28)" stroke-width="1.5"/>
+          <rect x="680" y="280" width="4" height="90" rx="2" fill="#34d399"/>
+          <text x="792" y="322" text-anchor="middle" fill="#6ee7b7" font-size="21" font-weight="700" font-family="Pretendard,sans-serif">AI 분석 · 학습</text>
+          <text x="792" y="348" text-anchor="middle" fill="#475569" font-size="14" font-family="Pretendard,sans-serif">패턴 인식 · 예측 · 최적화</text>
+
+          <!-- Node: 업무 개선 (bottom-left) -->
+          <rect x="18" y="280" width="222" height="90" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.28)" stroke-width="1.5"/>
+          <rect x="18" y="280" width="4" height="90" rx="2" fill="#34d399"/>
+          <text x="130" y="322" text-anchor="middle" fill="#6ee7b7" font-size="21" font-weight="700" font-family="Pretendard,sans-serif">업무 개선</text>
+          <text x="130" y="348" text-anchor="middle" fill="#475569" font-size="14" font-family="Pretendard,sans-serif">프로세스 개선 · 판단 지원</text>
+
+          <!-- Center circle -->
+          <circle cx="460" cy="200" r="86" fill="rgba(52,211,153,0.04)" stroke="rgba(52,211,153,0.22)" stroke-width="1.5"/>
+          <text x="460" y="191" text-anchor="middle" fill="#6ee7b7" font-size="24" font-weight="800" font-family="Pretendard,sans-serif">선순환</text>
+          <text x="460" y="217" text-anchor="middle" fill="#334155" font-size="14" font-family="Pretendard,sans-serif">Virtuous Cycle</text>
+        </svg>
+      </div>
+    </main>
+
+    <div class="slide-foot"><span class="cur">17</span> / 18</div>
+  </div></div>
+</body>
+</html>

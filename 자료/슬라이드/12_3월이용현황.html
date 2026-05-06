@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 12 — AI 노동법 상담 3월 이용 현황 | 고용노동부 AX 추진 현황 및 향후 계획</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* ── 상단 헤더 ── */
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* ── 본문 ── */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      margin: calc(16 * var(--u)) 0;
+      border-radius: calc(2 * var(--u));
+    }
+
+    /* 제목 행 */
+    .title-row {
+      display: flex;
+      align-items: baseline;
+      gap: calc(16 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .main-title {
+      font-size: calc(44 * var(--u));
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .period-badge {
+      font-size: calc(16 * var(--u));
+      font-weight: 600;
+      color: #7dd3fc;
+      padding: calc(5 * var(--u)) calc(14 * var(--u));
+      border: 1px solid rgba(125, 211, 252, 0.38);
+      border-radius: calc(999 * var(--u));
+      background: rgba(125, 211, 252, 0.06);
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── 4대 KPI 통계 행 ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: calc(14 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.10) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: calc(8 * var(--u));
+      padding: calc(13 * var(--u)) calc(16 * var(--u));
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-card.hl {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(125, 211, 252, 0.20) 100%);
+      border-color: rgba(125, 211, 252, 0.52);
+      box-shadow: 0 0 calc(22 * var(--u)) rgba(56, 189, 248, 0.22);
+    }
+
+    .stat-num {
+      font-size: calc(44 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      letter-spacing: -0.025em;
+      line-height: 1.0;
+      text-shadow: 0 0 calc(16 * var(--u)) rgba(125, 211, 252, 0.28);
+    }
+
+    .stat-num .unit {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      color: #94a3b8;
+      margin-left: calc(2 * var(--u));
+    }
+
+    .stat-label {
+      font-size: calc(17 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.02em;
+      margin-top: calc(5 * var(--u));
+    }
+
+    /* ── 메인 3열 그리드 ── */
+    .main-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1.18fr 0.82fr;
+      gap: calc(14 * var(--u));
+      margin-bottom: calc(14 * var(--u));
+    }
+
+    .panel {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.04) 0%, rgba(96, 165, 250, 0.08) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.20);
+      border-left: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(16 * var(--u)) calc(18 * var(--u));
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+      box-shadow: inset calc(2 * var(--u)) 0 calc(12 * var(--u)) rgba(56, 189, 248, 0.12);
+    }
+
+    .panel:nth-child(1) {
+      border-left-color: #7dd3fc;
+    }
+
+    .panel:nth-child(2) {
+      border-left-color: #38bdf8;
+    }
+
+    .panel:nth-child(3) {
+      border-left-color: #60a5fa;
+    }
+
+    .panel-title {
+      font-size: calc(20 * var(--u));
+      font-weight: 700;
+      color: #7dd3fc;
+      letter-spacing: 0.06em;
+      margin-bottom: calc(10 * var(--u));
+      flex-shrink: 0;
+    }
+
+    /* ── 좌측: 요일별 바 차트 ── */
+    .weekday-wrap {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wb-bars {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: flex-end;
+      gap: calc(5 * var(--u));
+    }
+
+    .wb-item {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .wb-val {
+      font-size: calc(14 * var(--u));
+      font-weight: 700;
+      color: #7dd3fc;
+      white-space: nowrap;
+      margin-bottom: calc(3 * var(--u));
+      line-height: 1;
+    }
+
+    .wb-item.we .wb-val {
+      color: #f9a8d4;
+    }
+
+    .wb-bar {
+      width: 88%;
+      border-radius: calc(3 * var(--u)) calc(3 * var(--u)) 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    .wb-seg {
+      width: 100%;
+      min-height: 0;
+    }
+
+    .wb-seg.biz {
+      background: linear-gradient(180deg, #60a5fa 0%, #38bdf8 100%);
+    }
+
+    .wb-seg.night {
+      background: linear-gradient(180deg, #a78bfa 0%, #818cf8 100%);
+    }
+
+    .wb-seg.wknd {
+      background: linear-gradient(180deg, #fb7185 0%, #f472b6 100%);
+    }
+
+    .wb-days {
+      display: flex;
+      gap: calc(5 * var(--u));
+      flex-shrink: 0;
+      margin-top: calc(5 * var(--u));
+    }
+
+    .wb-days span {
+      flex: 1;
+      text-align: center;
+      font-size: calc(16 * var(--u));
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .wb-days span.we-label {
+      color: #f9a8d4;
+    }
+
+    /* 범례 */
+    .wb-legend {
+      display: flex;
+      gap: calc(14 * var(--u));
+      flex-shrink: 0;
+      margin-top: calc(8 * var(--u));
+      align-items: center;
+    }
+
+    .legend-dot {
+      width: calc(10 * var(--u));
+      height: calc(10 * var(--u));
+      border-radius: calc(2 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .legend-text {
+      font-size: calc(15 * var(--u));
+      color: #94a3b8;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: calc(6 * var(--u));
+    }
+
+    /* ── 중앙: 상담 주제 Top 10 ── */
+    .topic-list {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .topic-row {
+      display: grid;
+      grid-template-columns: calc(100 * var(--u)) 1fr calc(56 * var(--u));
+      align-items: center;
+      gap: calc(8 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .topic-label {
+      font-size: calc(19 * var(--u));
+      font-weight: 600;
+      color: #e2e8f0;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .topic-bar-wrap {
+      height: calc(20 * var(--u));
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: calc(3 * var(--u));
+      overflow: hidden;
+    }
+
+    .topic-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      border-radius: calc(3 * var(--u));
+    }
+
+    .topic-bar.t2 {
+      background: linear-gradient(90deg, #7dd3fc 0%, #38bdf8 100%);
+    }
+
+    .topic-bar.t3 {
+      background: linear-gradient(90deg, #bae6fd 0%, #7dd3fc 100%);
+    }
+
+    .topic-count {
+      font-size: calc(17 * var(--u));
+      font-weight: 700;
+      color: #7dd3fc;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* ── 우측 ── */
+    .right-section {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .section-divider {
+      width: 100%;
+      height: calc(1 * var(--u));
+      background: rgba(56, 189, 248, 0.22);
+      margin: calc(10 * var(--u)) 0;
+      flex-shrink: 0;
+    }
+
+    /* 대화 깊이 */
+    .depth-section {
+      flex: 1.2;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .depth-list {
+      display: flex;
+      flex-direction: column;
+      gap: calc(7 * var(--u));
+    }
+
+    .depth-row {
+      flex-shrink: 0;
+    }
+
+    .depth-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: calc(3 * var(--u));
+    }
+
+    .depth-key {
+      font-size: calc(17 * var(--u));
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .depth-pct {
+      font-size: calc(18 * var(--u));
+      font-weight: 800;
+      color: #7dd3fc;
+    }
+
+    .depth-bar-wrap {
+      height: calc(14 * var(--u));
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: calc(2 * var(--u));
+      overflow: hidden;
+    }
+
+    .depth-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      border-radius: calc(2 * var(--u));
+    }
+
+    .depth-bar.d2 {
+      opacity: 0.82;
+    }
+
+    .depth-bar.d3 {
+      opacity: 0.68;
+    }
+
+    .depth-bar.d4 {
+      opacity: 0.55;
+    }
+
+    .depth-bar.d5 {
+      opacity: 0.55;
+      background: linear-gradient(90deg, #818cf8 0%, #a78bfa 100%);
+    }
+
+    /* 답변 품질 */
+    .quality-section {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .quality-list {
+      display: flex;
+      flex-direction: column;
+      gap: calc(5 * var(--u));
+    }
+
+    .quality-row {
+      flex-shrink: 0;
+    }
+
+    .quality-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: calc(3 * var(--u));
+    }
+
+    .quality-key {
+      font-size: calc(15 * var(--u));
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .quality-pct {
+      font-size: calc(16 * var(--u));
+      font-weight: 800;
+      color: #7dd3fc;
+    }
+
+    .quality-pct.hl {
+      color: #bae6fd;
+      font-size: calc(18 * var(--u));
+    }
+
+    .quality-bar-wrap {
+      height: calc(12 * var(--u));
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: calc(2 * var(--u));
+      overflow: hidden;
+    }
+
+    .quality-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%);
+      border-radius: calc(2 * var(--u));
+      opacity: 0.55;
+    }
+
+    .quality-bar.hl {
+      background: linear-gradient(90deg, #bae6fd 0%, #7dd3fc 100%);
+      opacity: 1;
+    }
+
+    /* ── 하단 배너 ── */
+    .bottom-banner {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: calc(20 * var(--u));
+      padding: calc(12 * var(--u)) calc(28 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(125, 211, 252, 0.14) 100%);
+      border: 1px solid rgba(125, 211, 252, 0.38);
+      border-radius: calc(8 * var(--u));
+      box-shadow: 0 0 calc(22 * var(--u)) rgba(56, 189, 248, 0.16);
+    }
+
+    .banner-em {
+      font-size: calc(38 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      white-space: nowrap;
+      text-shadow: 0 0 calc(18 * var(--u)) rgba(125, 211, 252, 0.40);
+      flex-shrink: 0;
+    }
+
+    .banner-divider {
+      width: calc(1 * var(--u));
+      height: calc(32 * var(--u));
+      background: rgba(125, 211, 252, 0.30);
+      flex-shrink: 0;
+    }
+
+    .banner-text {
+      font-size: calc(21 * var(--u));
+      font-weight: 500;
+      color: #e2e8f0;
+      letter-spacing: -0.005em;
+      line-height: 1.45;
+    }
+
+    .banner-text .acc {
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    /* 페이지 번호 */
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #64748b;
+    }
+
+    .slide-foot .cur {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">장소</span>
+          <span class="venue-text">국가인공지능전략위원회 세미나</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">03. 고용노동부 AX Project 소개</div>
+        <div class="rule"></div>
+
+        <div class="title-row">
+          <h1 class="main-title">AI 노동법 상담 — 3월 이용 현황</h1>
+          <span class="period-badge">2026.03.01 ~ 03.16 (16일간)</span>
+        </div>
+
+        <!-- KPI 4종 -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-num">3,745<span class="unit">건</span></div>
+            <div class="stat-label">총 상담 대화 수</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">10,925<span class="unit">건</span></div>
+            <div class="stat-label">총 질의·응답 수</div>
+          </div>
+          <div class="stat-card hl">
+            <div class="stat-num">45.8<span class="unit">%</span></div>
+            <div class="stat-label">비업무시간 이용 비율</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2.9<span class="unit">회</span></div>
+            <div class="stat-label">대화당 평균 질의 횟수</div>
+          </div>
+        </div>
+
+        <!-- 메인 3열 -->
+        <div class="main-grid">
+
+          <!-- 좌: 요일별 바 차트 -->
+          <div class="panel">
+            <div class="panel-title">요일별 이용 건수</div>
+            <div class="weekday-wrap">
+              <div class="wb-bars">
+                <!-- 화요일=100% 기준. 내부 flex비율은 실제 데이터 기준 -->
+                <div class="wb-item">
+                  <span class="wb-val">1,478</span>
+                  <div class="wb-bar" style="height:70.4%">
+                    <div class="wb-seg night" style="flex:42.0"></div>
+                    <div class="wb-seg biz" style="flex:58.0"></div>
+                  </div>
+                </div>
+                <div class="wb-item">
+                  <span class="wb-val">2,100</span>
+                  <div class="wb-bar" style="height:100%">
+                    <div class="wb-seg night" style="flex:37.8"></div>
+                    <div class="wb-seg biz" style="flex:62.2"></div>
+                  </div>
+                </div>
+                <div class="wb-item">
+                  <span class="wb-val">1,941</span>
+                  <div class="wb-bar" style="height:92.4%">
+                    <div class="wb-seg night" style="flex:30.5"></div>
+                    <div class="wb-seg biz" style="flex:69.5"></div>
+                  </div>
+                </div>
+                <div class="wb-item">
+                  <span class="wb-val">1,810</span>
+                  <div class="wb-bar" style="height:86.2%">
+                    <div class="wb-seg night" style="flex:32.8"></div>
+                    <div class="wb-seg biz" style="flex:67.2"></div>
+                  </div>
+                </div>
+                <div class="wb-item">
+                  <span class="wb-val">1,741</span>
+                  <div class="wb-bar" style="height:82.9%">
+                    <div class="wb-seg night" style="flex:31.5"></div>
+                    <div class="wb-seg biz" style="flex:68.5"></div>
+                  </div>
+                </div>
+                <div class="wb-item we">
+                  <span class="wb-val">770</span>
+                  <div class="wb-bar" style="height:36.7%">
+                    <div class="wb-seg wknd" style="flex:1"></div>
+                  </div>
+                </div>
+                <div class="wb-item we">
+                  <span class="wb-val">1,085</span>
+                  <div class="wb-bar" style="height:51.7%">
+                    <div class="wb-seg wknd" style="flex:1"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="wb-days">
+                <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span>
+                <span class="we-label">토</span><span class="we-label">일</span>
+              </div>
+              <div class="wb-legend">
+                <div class="legend-item">
+                  <div class="legend-dot" style="background:#38bdf8"></div>
+                  <span class="legend-text">업무시간</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot" style="background:#818cf8"></div>
+                  <span class="legend-text">야간</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot" style="background:#f472b6"></div>
+                  <span class="legend-text">주말</span>
+                </div>
+                <span class="legend-text" style="margin-left:auto;color:#64748b;font-size:calc(14 * var(--u))">단위: 건</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 중: 상담 주제 Top 10 -->
+          <div class="panel">
+            <div class="panel-title">상담 주제 Top 10&nbsp;&nbsp;<span
+                style="font-weight:500;color:#64748b;letter-spacing:0.02em">질문 내 키워드 기준</span></div>
+            <div class="topic-list">
+              <!-- max=1,063 (급여) -->
+              <div class="topic-row">
+                <div class="topic-label">급여</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar" style="width:100%"></div>
+                </div>
+                <div class="topic-count">1,063</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">퇴사</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t2" style="width:84.9%"></div>
+                </div>
+                <div class="topic-count">902</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">임금</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t2" style="width:83.6%"></div>
+                </div>
+                <div class="topic-count">889</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">연차</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t2" style="width:80.3%"></div>
+                </div>
+                <div class="topic-count">854</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">퇴직금</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t3" style="width:69.3%"></div>
+                </div>
+                <div class="topic-count">737</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">근로계약</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t3" style="width:63.7%"></div>
+                </div>
+                <div class="topic-count">677</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">주휴수당</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t3" style="width:48.1%"></div>
+                </div>
+                <div class="topic-count">511</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">휴일</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t3" style="width:44.8%"></div>
+                </div>
+                <div class="topic-count">476</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">실업급여</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t3" style="width:38.7%"></div>
+                </div>
+                <div class="topic-count">411</div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label">해고</div>
+                <div class="topic-bar-wrap">
+                  <div class="topic-bar t3" style="width:37.9%"></div>
+                </div>
+                <div class="topic-count">403</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우: 대화 깊이 + 시간대 분류 -->
+          <div class="panel">
+
+            <!-- 대화 깊이 -->
+            <div class="panel-title">대화 깊이 분포</div>
+            <div class="right-section">
+              <div class="depth-section">
+                <div class="depth-list">
+                  <div class="depth-row">
+                    <div class="depth-meta">
+                      <span class="depth-key">1회 (단발 질문)</span>
+                      <span class="depth-pct">41.4%</span>
+                    </div>
+                    <div class="depth-bar-wrap">
+                      <div class="depth-bar" style="width:100%"></div>
+                    </div>
+                  </div>
+                  <div class="depth-row">
+                    <div class="depth-meta">
+                      <span class="depth-key">2회</span>
+                      <span class="depth-pct">22.9%</span>
+                    </div>
+                    <div class="depth-bar-wrap">
+                      <div class="depth-bar d2" style="width:55.3%"></div>
+                    </div>
+                  </div>
+                  <div class="depth-row">
+                    <div class="depth-meta">
+                      <span class="depth-key">3회</span>
+                      <span class="depth-pct">13.2%</span>
+                    </div>
+                    <div class="depth-bar-wrap">
+                      <div class="depth-bar d3" style="width:31.9%"></div>
+                    </div>
+                  </div>
+                  <div class="depth-row">
+                    <div class="depth-meta">
+                      <span class="depth-key">4~5회</span>
+                      <span class="depth-pct">11.2%</span>
+                    </div>
+                    <div class="depth-bar-wrap">
+                      <div class="depth-bar d4" style="width:27.1%"></div>
+                    </div>
+                  </div>
+                  <div class="depth-row">
+                    <div class="depth-meta">
+                      <span class="depth-key">6회 이상</span>
+                      <span class="depth-pct">11.3%</span>
+                    </div>
+                    <div class="depth-bar-wrap">
+                      <div class="depth-bar d5" style="width:27.3%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top:calc(6 * var(--u));font-size:calc(14 * var(--u));color:#64748b;">
+                  최대 85회 연속 질의 사례 있음
+                </div>
+              </div>
+
+              <div class="section-divider"></div>
+
+              <!-- 답변 품질 현황 -->
+              <div class="panel-title">답변 품질 현황</div>
+              <div class="quality-section">
+                <div class="quality-list">
+                  <div class="quality-row">
+                    <div class="quality-meta">
+                      <span class="quality-key">500~1,000자 <span
+                          style="color:#64748b;font-weight:500">(주류)</span></span>
+                      <span class="quality-pct hl">62.3%</span>
+                    </div>
+                    <div class="quality-bar-wrap">
+                      <div class="quality-bar hl" style="width:100%"></div>
+                    </div>
+                  </div>
+                  <div class="quality-row">
+                    <div class="quality-meta">
+                      <span class="quality-key">~200자 (간단 안내)</span>
+                      <span class="quality-pct">19.6%</span>
+                    </div>
+                    <div class="quality-bar-wrap">
+                      <div class="quality-bar" style="width:31.5%"></div>
+                    </div>
+                  </div>
+                  <div class="quality-row">
+                    <div class="quality-meta">
+                      <span class="quality-key">200~500자</span>
+                      <span class="quality-pct">10.5%</span>
+                    </div>
+                    <div class="quality-bar-wrap">
+                      <div class="quality-bar" style="width:16.9%"></div>
+                    </div>
+                  </div>
+                  <div class="quality-row">
+                    <div class="quality-meta">
+                      <span class="quality-key">1,000~2,000자</span>
+                      <span class="quality-pct">7.4%</span>
+                    </div>
+                    <div class="quality-bar-wrap">
+                      <div class="quality-bar" style="width:11.9%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top:calc(7 * var(--u));font-size:calc(14 * var(--u));color:#7dd3fc;font-weight:600;">
+                  평균 595자 — A4 0.5페이지 분량의 맞춤형 답변
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">12</span> &nbsp;/&nbsp; 18
+      </footer>
+
+    </div>
+  </div>
+</body>
+
+</html>
