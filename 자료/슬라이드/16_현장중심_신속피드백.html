@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 16 — 현장 중심 · 신속 피드백 | 고용노동부 AX</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16/9));
+      height: min(100vh, calc(100vw * 9/16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16/9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* Header */
+    .slide-top {
+      position: absolute;
+      top: calc(60 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(60 * var(--u));
+      height: calc(60 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text .ko {
+      font-size: calc(25 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(11 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(12 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(4 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(19 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* Body */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(168 * var(--u));
+      bottom: calc(56 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: calc(14 * var(--u));
+    }
+
+    .eyebrow {
+      font-size: calc(20 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+      flex-shrink: 0;
+    }
+
+    .rule {
+      width: calc(90 * var(--u));
+      height: calc(3 * var(--u));
+      background: linear-gradient(90deg, #38bdf8, #60a5fa);
+      border-radius: calc(2 * var(--u));
+      margin: calc(6 * var(--u)) 0 calc(4 * var(--u));
+      flex-shrink: 0;
+    }
+
+    /* Two panels */
+    .panels {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(22 * var(--u));
+    }
+
+    .panel {
+      border-radius: calc(12 * var(--u));
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-blue {
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px solid rgba(56, 189, 248, 0.20);
+    }
+
+    .panel-amber {
+      background: rgba(167, 139, 250, 0.04);
+      border: 1px solid rgba(167, 139, 250, 0.20);
+    }
+
+    /* Panel title band */
+    .panel-title {
+      font-size: calc(30 * var(--u));
+      font-weight: 800;
+      flex-shrink: 0;
+      margin: 0;
+      padding: calc(16 * var(--u)) calc(22 * var(--u));
+    }
+
+    .panel-blue .panel-title {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.10);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.20);
+    }
+
+    .panel-amber .panel-title {
+      color: #a78bfa;
+      background: rgba(167, 139, 250, 0.10);
+      border-bottom: 1px solid rgba(167, 139, 250, 0.20);
+    }
+
+    .panel-title .p-badge {
+      font-size: calc(17 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: calc(2 * var(--u)) calc(8 * var(--u));
+      border-radius: calc(4 * var(--u));
+      margin-right: calc(10 * var(--u));
+      vertical-align: middle;
+    }
+
+    .panel-blue .p-badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: #7dd3fc;
+    }
+
+    .panel-amber .p-badge {
+      background: rgba(167, 139, 250, 0.15);
+      color: #c4b5fd;
+    }
+
+    .panel-body {
+      flex: 1;
+      min-height: 0;
+      padding: calc(18 * var(--u)) calc(22 * var(--u));
+      display: flex;
+      flex-direction: column;
+      gap: calc(14 * var(--u));
+      overflow: hidden;
+    }
+
+    /* ── Blue panel content ── */
+    .desc-text {
+      font-size: calc(33 * var(--u));
+      color: #94a3b8;
+      line-height: 1.7;
+      flex-shrink: 0;
+    }
+
+    .desc-text strong {
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    .hack-card {
+      flex: 1;
+      min-height: 0;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(96, 165, 250, 0.09) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      border-left: calc(3 * var(--u)) solid #38bdf8;
+      border-radius: calc(8 * var(--u));
+      padding: calc(16 * var(--u)) calc(18 * var(--u));
+      display: flex;
+      flex-direction: column;
+      gap: calc(10 * var(--u));
+      overflow: hidden;
+    }
+
+    .hack-img {
+      flex: 1;
+      min-height: calc(312 * var(--u));
+      border-radius: calc(6 * var(--u));
+      overflow: hidden;
+    }
+
+    .hack-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .hack-title {
+      font-size: calc(33 * var(--u));
+      font-weight: 800;
+      color: #bae6fd;
+      flex-shrink: 0;
+    }
+
+    .hack-url {
+      font-size: calc(23 * var(--u));
+      color: rgba(56, 189, 248, 0.55);
+      flex-shrink: 0;
+    }
+
+    .hack-pts {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .hack-pt {
+      display: flex;
+      align-items: flex-start;
+      gap: calc(10 * var(--u));
+    }
+
+    .hack-dot {
+      width: calc(6 * var(--u));
+      height: calc(6 * var(--u));
+      border-radius: 50%;
+      background: #38bdf8;
+      flex-shrink: 0;
+      margin-top: calc(9 * var(--u));
+      opacity: 0.6;
+    }
+
+    .hack-text {
+      font-size: calc(30 * var(--u));
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .hack-text strong {
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    .demo-btn {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(10 * var(--u));
+      padding: calc(12 * var(--u)) calc(20 * var(--u));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.10) 0%, rgba(56, 189, 248, 0.18) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      border-radius: calc(7 * var(--u));
+      text-decoration: none;
+      transition: box-shadow 0.2s;
+    }
+
+    .demo-btn:hover {
+      box-shadow: 0 0 calc(28 * var(--u)) rgba(56, 189, 248, 0.28);
+    }
+
+    .demo-dot {
+      width: calc(9 * var(--u));
+      height: calc(9 * var(--u));
+      border-radius: 50%;
+      background: #38bdf8;
+      flex-shrink: 0;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8)
+      }
+    }
+
+    .demo-label {
+      font-size: calc(34 * var(--u));
+      font-weight: 700;
+      color: #7dd3fc;
+    }
+
+    .demo-url {
+      font-size: calc(26 * var(--u));
+      color: #38bdf8;
+      opacity: 0.70;
+    }
+
+    /* ── Amber panel content ── */
+    .amber-desc {
+      font-size: calc(33 * var(--u));
+      color: #94a3b8;
+      line-height: 1.7;
+      flex-shrink: 0;
+    }
+
+    .amber-desc strong {
+      color: #c4b5fd;
+      font-weight: 700;
+    }
+
+    .person-cards {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: calc(10 * var(--u));
+    }
+
+    .person-card {
+      flex: 1;
+      min-height: 0;
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.05) 0%, rgba(167, 139, 250, 0.08) 100%);
+      border: 1px solid rgba(167, 139, 250, 0.20);
+      border-left: calc(3 * var(--u)) solid #a78bfa;
+      border-radius: calc(8 * var(--u));
+      padding: calc(14 * var(--u)) calc(18 * var(--u));
+      display: flex;
+      flex-direction: column;
+      gap: calc(6 * var(--u));
+    }
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .role-badge {
+      flex-shrink: 0;
+      background: rgba(167, 139, 250, 0.12);
+      border: 1px solid rgba(167, 139, 250, 0.26);
+      border-radius: calc(4 * var(--u));
+      padding: calc(2 * var(--u)) calc(8 * var(--u));
+      font-size: calc(20 * var(--u));
+      font-weight: 700;
+      color: #c4b5fd;
+      letter-spacing: 0.08em;
+    }
+
+    .person-name {
+      font-size: calc(36 * var(--u));
+      font-weight: 800;
+      color: #f1f5f9;
+      flex-shrink: 0;
+    }
+
+    .project-name {
+      font-size: calc(29 * var(--u));
+      font-weight: 700;
+      color: #c4b5fd;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+
+    .project-desc {
+      font-size: calc(26 * var(--u));
+      color: #94a3b8;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .bottom-strip {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(10 * var(--u));
+      padding: calc(12 * var(--u)) calc(18 * var(--u));
+      background: rgba(167, 139, 250, 0.05);
+      border: 1px solid rgba(167, 139, 250, 0.16);
+      border-radius: calc(7 * var(--u));
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: calc(12 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .title-row .project-name {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .yt-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+      padding: calc(7 * var(--u)) calc(14 * var(--u));
+      background: rgba(167, 139, 250, 0.10);
+      border: 1px solid rgba(167, 139, 250, 0.35);
+      border-radius: calc(6 * var(--u));
+      text-decoration: none;
+      transition: box-shadow 0.2s;
+    }
+
+    .yt-btn:hover {
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(167, 139, 250, 0.30);
+    }
+
+    .yt-play {
+      width: calc(22 * var(--u));
+      height: calc(22 * var(--u));
+      border-radius: 50%;
+      background: #a78bfa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: calc(11 * var(--u));
+      color: #0b1220;
+      padding-left: calc(2 * var(--u));
+    }
+
+    .yt-label {
+      font-size: calc(24 * var(--u));
+      font-weight: 700;
+      color: #c4b5fd;
+    }
+
+    .yt-time {
+      font-size: calc(20 * var(--u));
+      color: rgba(167, 139, 250, 0.60);
+    }
+
+    .strip-dash {
+      width: calc(24 * var(--u));
+      height: calc(2 * var(--u));
+      background: rgba(167, 139, 250, 0.30);
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+
+    .strip-text {
+      font-size: calc(26 * var(--u));
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .strip-hl {
+      color: #c4b5fd;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">REPORT</span>
+          <span class="venue-text">국가인공지능전략위원회</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">04. 고용노동부 AX 추진 방향</div>
+        <div class="rule"></div>
+
+        <div class="panels">
+
+          <!-- ① 바이브코딩 + 해커톤 -->
+          <div class="panel panel-blue">
+            <div class="panel-title">
+              <span class="p-badge">시도 ①</span>바이브코딩 + 해커톤
+            </div>
+            <div class="panel-body">
+              <div class="hack-card">
+                <div class="hack-title">고용노동부 AI 해커톤</div>
+                <div class="desc-text">
+                  <strong>코딩 경험이 없는 직원도</strong> 현장의 아이디어를<br>
+                  실제 작동하는 소프트웨어로 구현하는 행사
+                </div>
+                <div class="hack-img">
+                  <img src="../해커톤.png" alt="고용노동부 AI 해커톤">
+                </div>
+                <div class="hack-pts">
+                  <div class="hack-pt">
+                    <div class="hack-dot"></div>
+                    <div class="hack-text"><strong>116팀이 지원</strong>하는 뜨거운 열기 속에 <strong>40팀이 참여</strong>하여 각자의 아이디어를
+                      시제품으로 개발</div>
+                  </div>
+                </div>
+              </div>
+
+              <a class="demo-btn" href="https://moellab.info/hackathon/" target="_blank">
+                <div class="demo-dot"></div>
+                <span class="demo-label">해커톤 페이지 바로가기</span>
+                <span class="demo-url">moellab.info/hackathon</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- ② 빠른 실패와 학습 -->
+          <div class="panel panel-amber">
+            <div class="panel-title">
+              <span class="p-badge">원칙 ②</span>빠른 실패와 학습
+            </div>
+            <div class="panel-body">
+              <div class="amber-desc">
+                외부 조직에 의존하지 않는 <strong>자체 개발 역량</strong>으로<br>
+                <strong>스스로 만들고, 스스로 배웁니다.</strong>
+              </div>
+
+              <div class="person-cards">
+                <div class="person-card">
+                  <div class="name-row">
+                    <div class="person-name">한이송</div>
+                    <span class="role-badge">주무관</span>
+                  </div>
+                  <div class="title-row">
+                    <div class="project-name">자기소개서 생성 AI Agent</div>
+                    <a class="yt-btn" href="https://www.youtube.com/watch?v=JXXU4aBVSkI&t=2215s" target="_blank">
+                      <div class="yt-play">▶</div>
+                      <span class="yt-label">YouTube에서 보기</span>
+                      <span class="yt-time">36:55</span>
+                    </a>
+                  </div>
+                  <div class="project-desc">취업 준비생이 경험·직무를 입력하면 AI가 맞춤형 자기소개서를 자동 생성. 노동부 직원이 직접 기획·구현한 고용지원 AI 도구.
+                  </div>
+                </div>
+                <div class="person-card">
+                  <div class="name-row">
+                    <div class="person-name">강민</div>
+                    <span class="role-badge">감독관</span>
+                  </div>
+                  <div class="title-row">
+                    <div class="project-name">디지털포렌식 Speech to Text</div>
+                    <a class="yt-btn" href="https://www.youtube.com/watch?v=JXXU4aBVSkI&t=2895s" target="_blank">
+                      <div class="yt-play">▶</div>
+                      <span class="yt-label">YouTube에서 보기</span>
+                      <span class="yt-time">48:15</span>
+                    </a>
+                  </div>
+                  <div class="project-desc">노동감독 현장에서 진술·심문 내용을 자동으로 텍스트로 변환. 기록 정확도를 높이고 감독관의 집중 시간을 현장 대응에 돌려줌.</div>
+                </div>
+              </div>
+
+              <div class="bottom-strip">
+                <div class="strip-dash"></div>
+                <div class="strip-text">
+                  외부 의존 없는 자체 역량이 지속가능한 AX 기반
+                </div>
+                <div class="strip-dash"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+</body>
+
+</html>

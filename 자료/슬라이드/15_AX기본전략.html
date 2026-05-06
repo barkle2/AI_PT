@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 15 — 공공 AX 기본전략 개요 | 고용노동부 AX</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #050a16;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16/9));
+      height: min(100vh, calc(100vw * 9/16));
+      background: linear-gradient(135deg, #0b1220 0%, #0f1a2e 50%, #0b1220 100%);
+      color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16/9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #60a5fa 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(96, 165, 250, 0.45);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(148, 163, 184, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    /* Header */
+    .slide-top {
+      position: absolute;
+      top: calc(48 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(56 * var(--u));
+      height: calc(56 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text .ko {
+      font-size: calc(24 * var(--u));
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(11 * var(--u));
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-label {
+      display: block;
+      font-size: calc(12 * var(--u));
+      color: #94a3b8;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin-bottom: calc(4 * var(--u));
+    }
+
+    .venue-text {
+      font-size: calc(18 * var(--u));
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* Body */
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(158 * var(--u));
+      bottom: calc(50 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: calc(16 * var(--u));
+    }
+
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #7dd3fc;
+      flex-shrink: 0;
+    }
+
+    .rule {
+      width: calc(80 * var(--u));
+      height: calc(3 * var(--u));
+      background: linear-gradient(90deg, #38bdf8, #60a5fa);
+      border-radius: calc(2 * var(--u));
+      margin: calc(8 * var(--u)) 0 calc(12 * var(--u));
+      flex-shrink: 0;
+    }
+
+    /* Mission/Vision Banner */
+    .mv-banner {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.10) 0%, rgba(96, 165, 250, 0.07) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: calc(10 * var(--u));
+      padding: calc(14 * var(--u)) calc(28 * var(--u));
+      display: flex;
+      flex-direction: column;
+      gap: calc(9 * var(--u));
+    }
+
+    .mv-item {
+      display: flex;
+      align-items: center;
+      gap: calc(14 * var(--u));
+    }
+
+    .mv-label {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.12em;
+      flex-shrink: 0;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.30);
+      border-radius: calc(4 * var(--u));
+      padding: calc(3 * var(--u)) calc(8 * var(--u));
+    }
+
+    .mv-text {
+      font-size: calc(30 * var(--u));
+      font-weight: 600;
+      color: #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .mv-principles {
+      display: flex;
+      gap: calc(28 * var(--u));
+      align-items: center;
+      padding-top: calc(6 * var(--u));
+      border-top: 1px solid rgba(56, 189, 248, 0.12);
+    }
+
+    .mvp-item {
+      display: flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+    }
+
+    .mvp-idx {
+      font-size: calc(18 * var(--u));
+      font-weight: 700;
+      color: rgba(56, 189, 248, 0.45);
+      flex-shrink: 0;
+    }
+
+    .mvp-rule {
+      font-size: calc(23 * var(--u));
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
+    .mvp-rule strong {
+      color: #bae6fd;
+      font-weight: 700;
+    }
+
+    .mvp-dot {
+      width: calc(3 * var(--u));
+      height: calc(3 * var(--u));
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.25);
+      flex-shrink: 0;
+    }
+
+    /* 3-column middle */
+    .mid-cols {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 28fr 32fr 40fr;
+      gap: calc(20 * var(--u));
+    }
+
+    /* Column base */
+    .col-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: calc(10 * var(--u));
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .col-head {
+      padding: calc(12 * var(--u)) calc(16 * var(--u));
+      font-size: calc(23 * var(--u));
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .col-body {
+      flex: 1;
+      min-height: 0;
+      padding: calc(14 * var(--u)) calc(16 * var(--u));
+      display: flex;
+      flex-direction: column;
+      gap: calc(10 * var(--u));
+      overflow: hidden;
+    }
+
+    /* Left: 현황·문제점 */
+    .col-status .col-head {
+      color: #94a3b8;
+      background: rgba(100, 116, 139, 0.12);
+      border-bottom: 1px solid rgba(100, 116, 139, 0.18);
+    }
+
+    .maturity-badge {
+      background: rgba(100, 116, 139, 0.18);
+      border: 1px solid rgba(100, 116, 139, 0.30);
+      border-radius: calc(6 * var(--u));
+      padding: calc(8 * var(--u)) calc(12 * var(--u));
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .maturity-num {
+      font-size: calc(40 * var(--u));
+      font-weight: 900;
+      color: #94a3b8;
+      line-height: 1;
+    }
+
+    .maturity-label {
+      font-size: calc(15 * var(--u));
+      color: #94a3b8;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .maturity-sub {
+      font-size: calc(13 * var(--u));
+      color: #94a3b8;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .prob-list {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .prob-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+      background: rgba(100, 116, 139, 0.08);
+      border: 1px solid rgba(100, 116, 139, 0.15);
+      border-left: calc(3 * var(--u)) solid rgba(100, 116, 139, 0.35);
+      border-radius: calc(6 * var(--u));
+      padding: calc(8 * var(--u)) calc(12 * var(--u));
+      margin-bottom: calc(6 * var(--u));
+    }
+
+    .prob-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .prob-num {
+      font-size: calc(16 * var(--u));
+      font-weight: 700;
+      color: rgba(148, 163, 184, 0.80);
+      flex-shrink: 0;
+      min-width: calc(24 * var(--u));
+    }
+
+    .prob-text {
+      font-size: calc(22 * var(--u));
+      color: #cbd5e1;
+      line-height: 1.3;
+    }
+
+    .prob-text strong {
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    /* Middle: 3단계 전략 */
+    .col-strategy .col-head {
+      color: #60a5fa;
+      background: rgba(56, 189, 248, 0.08);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+    }
+
+    .strat-layers {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: calc(6 * var(--u));
+    }
+
+    .strat-layer {
+      flex: 1;
+      border-radius: calc(8 * var(--u));
+      padding: calc(12 * var(--u)) calc(14 * var(--u));
+      display: flex;
+      align-items: center;
+      gap: calc(12 * var(--u));
+      border: 1px solid;
+    }
+
+    .strat-layer.s3 {
+      background: rgba(52, 211, 153, 0.08);
+      border-color: rgba(52, 211, 153, 0.25);
+    }
+
+    .strat-layer.s2 {
+      background: rgba(56, 189, 248, 0.07);
+      border-color: rgba(56, 189, 248, 0.22);
+    }
+
+    .strat-layer.s1 {
+      background: rgba(100, 116, 139, 0.10);
+      border-color: rgba(100, 116, 139, 0.22);
+    }
+
+    .strat-badge {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: calc(3 * var(--u)) calc(8 * var(--u));
+      border-radius: calc(4 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .s3 .strat-badge {
+      background: rgba(52, 211, 153, 0.18);
+      color: #34d399;
+    }
+
+    .s2 .strat-badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+    }
+
+    .s1 .strat-badge {
+      background: rgba(100, 116, 139, 0.18);
+      color: #94a3b8;
+    }
+
+    .strat-content {
+      flex: 1;
+    }
+
+    .strat-title {
+      font-size: calc(32 * var(--u));
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .s3 .strat-title {
+      color: #34d399;
+    }
+
+    .s2 .strat-title {
+      color: #38bdf8;
+    }
+
+    .s1 .strat-title {
+      color: #94a3b8;
+    }
+
+    .strat-desc {
+      font-size: calc(23 * var(--u));
+      color: #94a3b8;
+      margin-top: calc(4 * var(--u));
+      line-height: 1.4;
+    }
+
+    .strat-arrow {
+      text-align: center;
+      color: rgba(148, 163, 184, 0.60);
+      font-size: calc(27 * var(--u));
+      flex-shrink: 0;
+    }
+
+    .depend-note {
+      font-size: calc(23 * var(--u));
+      color: #94a3b8;
+      text-align: center;
+      padding: calc(6 * var(--u)) 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.08);
+      flex-shrink: 0;
+    }
+
+    /* Right: 7대 과제 */
+    .col-tasks .col-head {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+    }
+
+    .task-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      gap: calc(8 * var(--u));
+    }
+
+    .task-item {
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      border-radius: calc(7 * var(--u));
+      padding: calc(10 * var(--u)) calc(12 * var(--u));
+      display: flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+    }
+
+    .task-n {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      color: rgba(56, 189, 248, 0.45);
+      flex-shrink: 0;
+    }
+
+    .task-text {
+      font-size: calc(21 * var(--u));
+      color: #cbd5e1;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    .task-text em {
+      font-style: normal;
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    .task-content {
+      display: flex;
+      flex-direction: column;
+      gap: calc(4 * var(--u));
+    }
+
+    .task-title {
+      font-size: calc(27 * var(--u));
+      color: #cbd5e1;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .task-title em {
+      font-style: normal;
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    .task-desc {
+      font-size: calc(21 * var(--u));
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    /* Bottom: 전략원칙 */
+    .principle-bar {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: calc(14 * var(--u));
+    }
+
+    .principle-item {
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.14);
+      border-top: calc(2 * var(--u)) solid #38bdf8;
+      border-radius: 0 0 calc(7 * var(--u)) calc(7 * var(--u));
+      padding: calc(10 * var(--u)) calc(14 * var(--u));
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+    }
+
+    .p-idx {
+      font-size: calc(13 * var(--u));
+      font-weight: 700;
+      color: rgba(56, 189, 248, 0.45);
+      flex-shrink: 0;
+    }
+
+    .p-rule {
+      font-size: calc(17 * var(--u));
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    .p-rule strong {
+      color: #bae6fd;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+
+      <!-- Header -->
+      <div class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-label">REPORT</span>
+          <span class="venue-text">국가인공지능전략위원회</span>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="slide-body">
+        <div class="eyebrow">고용노동부 AX 기본전략 개요</div>
+        <div class="rule"></div>
+
+        <!-- Mission / Vision Banner -->
+        <div class="mv-banner">
+          <div class="mv-item">
+            <span class="mv-label">미션</span>
+            <span class="mv-text">고용노동 행정 데이터와 AI 기술을 결합하여 <strong style="color:#38bdf8">국민의 삶을 획기적으로 개선</strong></span>
+          </div>
+          <div class="mv-item">
+            <span class="mv-label">비전</span>
+            <span class="mv-text"><strong style="color:#38bdf8">데이터</strong>로 일하고 &nbsp;·&nbsp; <strong
+                style="color:#38bdf8">클라우드</strong>로 연결하며 &nbsp;·&nbsp; <strong style="color:#38bdf8">AI</strong>로 서비스하는
+              고용노동 행정</span>
+          </div>
+          <div class="mv-principles">
+            <div class="mvp-item">
+              <span class="mvp-idx">원칙 1</span>
+              <span class="mvp-rule"><strong>기술 도입</strong>보다 <strong>국민 불편 해소</strong>가 먼저다</span>
+            </div>
+            <div class="mvp-dot"></div>
+            <div class="mvp-item">
+              <span class="mvp-idx">원칙 2</span>
+              <span class="mvp-rule">최종 판단은 반드시 <strong>사람</strong>이 한다</span>
+            </div>
+            <div class="mvp-dot"></div>
+            <div class="mvp-item">
+              <span class="mvp-idx">원칙 3</span>
+              <span class="mvp-rule">데이터·시스템·인프라를 가능한 <strong>널리 공유</strong>한다</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Columns -->
+        <div class="mid-cols">
+
+          <!-- Left: 현황·문제점 -->
+          <div class="col-card col-status">
+            <div class="col-head">현황 · 문제점</div>
+            <div class="col-body">
+              <div class="prob-list">
+                <div class="prob-item">
+                  <span class="prob-num">①</span>
+                  <span class="prob-text"><strong>컨트롤타워</strong> 부재</span>
+                </div>
+                <div class="prob-item">
+                  <span class="prob-num">②</span>
+                  <span class="prob-text"><strong>정보인프라</strong> 신뢰도 미흡</span>
+                </div>
+                <div class="prob-item">
+                  <span class="prob-num">③</span>
+                  <span class="prob-text"><strong>예산</strong> 전략적 우선순위 부재</span>
+                </div>
+                <div class="prob-item">
+                  <span class="prob-num">④</span>
+                  <span class="prob-text"><strong>데이터</strong> 기관 간 단절</span>
+                </div>
+                <div class="prob-item">
+                  <span class="prob-num">⑤</span>
+                  <span class="prob-text"><strong>법·제도</strong> 리스크</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle: 3단계 전략 -->
+          <div class="col-card col-strategy">
+            <div class="col-head">3단계 추진 전략</div>
+            <div class="col-body">
+              <div class="strat-layers">
+                <div class="strat-layer s3">
+                  <div class="strat-badge">3단계</div>
+                  <div class="strat-content">
+                    <div class="strat-title">AI 서비스</div>
+                    <div class="strat-desc">현장에서 국민 체감 성과 창출</div>
+                  </div>
+                </div>
+                <div class="strat-arrow">↑ 상위는 하위에 의존</div>
+                <div class="strat-layer s2">
+                  <div class="strat-badge">2단계</div>
+                  <div class="strat-content">
+                    <div class="strat-title">데이터 연결</div>
+                    <div class="strat-desc">분산된 정보를 논리적으로 연계</div>
+                  </div>
+                </div>
+                <div class="strat-arrow">↑ 상위는 하위에 의존</div>
+                <div class="strat-layer s1">
+                  <div class="strat-badge">1단계</div>
+                  <div class="strat-content">
+                    <div class="strat-title">기반 마련</div>
+                    <div class="strat-desc">인프라 · 법령 · 거버넌스 · 예산</div>
+                  </div>
+                </div>
+              </div>
+              <div class="depend-note">모래 위에 집을 짓지 않는다</div>
+            </div>
+          </div>
+
+          <!-- Right: 7대 과제 -->
+          <div class="col-card col-tasks">
+            <div class="col-head">7대 추진과제</div>
+            <div class="col-body">
+              <div class="task-grid">
+                <div class="task-item">
+                  <span class="task-n">①</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>AX 거버넌스</em> 구축</div>
+                    <div class="task-desc">범부처 컨트롤타워로 AI기획관 신설</div>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <span class="task-n">②</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>법령</em> 근거 정비</div>
+                    <div class="task-desc">고용·노동·안전 정보연계 법적 근거 마련</div>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <span class="task-n">③</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>정보화 예산</em> 개선</div>
+                    <div class="task-desc">숨은 IT예산 통합<br>기능 중심 재편</div>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <span class="task-n">④</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>시스템 통합</em> · 클라우드</div>
+                    <div class="task-desc">공통 기능 우선 통합<br>단계적 전환</div>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <span class="task-n">⑤</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>데이터 연계</em> · 품질 관리</div>
+                    <div class="task-desc">API 기반 논리적 MDB<br>공통 식별체계</div>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <span class="task-n">⑥</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>AI 개발환경</em> 구축</div>
+                    <div class="task-desc">내부망 LLM<br>업무데이터 API 연계</div>
+                  </div>
+                </div>
+                <div class="task-item" style="grid-column:1/-1">
+                  <span class="task-n">⑦</span>
+                  <div class="task-content">
+                    <div class="task-title"><em>AI 역량개발</em></div>
+                    <div class="task-desc">교육→개발→배포 일체형 · 반기 해커톤으로 전 직원 AI 역량 축적</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div><!-- slide-body -->
+    </div><!-- slide -->
+  </div><!-- slide-wrap -->
+</body>
+
+</html>
