@@ -11,7 +11,9 @@
       "WebSearch",
       "WebFetch(domain:biz.heraldcorp.com)",
       "Bash(powershell *)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "PowerShell([System.IO.File]::ReadAllText\\(\"C:\\\\Workspace\\\\AI_PT\\\\자료\\\\정보화예산.csv\", [System.Text.Encoding]::GetEncoding\\(\"euc-kr\"\\)\\))",
+      "PowerShell($f = \"C:\\\\Workspace\\\\AI_PT\\\\자료\\\\발표용\\\\발표용2_standalone.html\"; if \\(Test-Path $f\\) { $size = \\(Get-Item $f\\).Length; \"EXISTS: {0:N0} bytes \\({1:N1} MB\\)\" -f $size, \\($size/1MB\\) } else { \"NOT FOUND\" })"
     ]
   }
 }
