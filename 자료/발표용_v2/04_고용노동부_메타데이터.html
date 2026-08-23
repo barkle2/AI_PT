@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 04 — 메타데이터 현황 | 고용노동부 AX 추진 현황</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #f8fafc;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 48%, #e2e8f0 100%);
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #2563eb 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(37, 99, 235, 0.18);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #475569;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(140 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      font-size: calc(26 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #0f4c81;
+    }
+
+    .rule {
+      width: calc(110 * var(--u));
+      height: calc(5 * var(--u));
+      background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%);
+      margin: calc(30 * var(--u)) 0 calc(30 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(62 * var(--u));
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      margin-bottom: calc(18 * var(--u));
+    }
+
+    .subtitle {
+      font-size: calc(24 * var(--u));
+      font-weight: 500;
+      color: #334155;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      margin-bottom: calc(30 * var(--u));
+    }
+
+    .body-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 1.4fr;
+      gap: calc(34 * var(--u));
+      min-height: 0;
+    }
+
+    .left-pane {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: calc(18 * var(--u));
+      min-height: 0;
+    }
+
+    .summary-box {
+      display: flex;
+      align-items: center;
+      gap: calc(20 * var(--u));
+      padding: calc(22 * var(--u)) calc(24 * var(--u));
+      background: linear-gradient(135deg, #edf8ff 0%, #eff6ff 100%);
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: calc(18 * var(--u));
+      box-shadow: 0 calc(12 * var(--u)) calc(28 * var(--u)) rgba(15, 118, 110, 0.08);
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: calc(12 * var(--u));
+      padding: 0;
+      margin: 0;
+      font-size: calc(22.8 * var(--u));
+      line-height: 1.45;
+      color: #0f172a;
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: calc(28 * var(--u));
+      color: #1f2937;
+    }
+
+    .bullet-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #0f4c81;
+      font-weight: 900;
+      font-size: calc(26 * var(--u));
+      line-height: 1;
+    }
+
+    .summary-number {
+      flex-shrink: 0;
+      font-size: calc(58 * var(--u));
+      font-weight: 900;
+      color: #0f4c81;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+    }
+
+    .summary-text {
+      display: flex;
+      flex-direction: column;
+      gap: calc(8 * var(--u));
+    }
+
+    .summary-text .label {
+      font-size: calc(22 * var(--u));
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .summary-text .desc {
+      font-size: calc(18 * var(--u));
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    .mini-note {
+      padding: calc(20 * var(--u)) calc(22 * var(--u));
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-left: calc(5 * var(--u)) solid #0ea5e9;
+      border-radius: calc(12 * var(--u));
+      font-size: calc(18 * var(--u));
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .right-pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      gap: calc(18 * var(--u));
+    }
+
+    .panel-title {
+      font-size: calc(22 * var(--u));
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+
+    .table-box {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: calc(16 * var(--u));
+      overflow: hidden;
+      box-shadow: 0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(15, 23, 42, 0.04);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: calc(21.6 * var(--u));
+    }
+
+    th,
+    td {
+      padding: calc(16 * var(--u)) calc(20 * var(--u));
+      text-align: left;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    th {
+      background: #eef6fb;
+      color: #0f172a;
+      font-size: calc(16.8 * var(--u));
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: #0f172a;
+      font-weight: 600;
+      font-size: calc(21.6 * var(--u));
+    }
+
+    td strong {
+      color: #0f4c81;
+      font-weight: 800;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tagline {
+      margin-top: calc(8 * var(--u));
+      padding: calc(16 * var(--u)) calc(18 * var(--u));
+      background: #f3f7fb;
+      border-radius: calc(10 * var(--u));
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: calc(18 * var(--u));
+      line-height: 1.5;
+      color: #334155;
+    }
+
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(60 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #475569;
+    }
+
+    .slide-foot .cur {
+      color: #0f172a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-text">제3차 양성평등위원회</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">02. AX 추진 준비 상황</div>
+        <div class="rule"></div>
+        <h1 class="main-title">메타데이터 현행화는 멈추지 않고 지속하는 것이 핵심</h1>
+
+        <div class="body-grid">
+          <div class="left-pane">
+            <ul class="bullet-list">
+              <li>고용노동부·산하기관 전체 메타데이터 현행화 완료</li>
+              <li>총 122개 시스템, 177개 DB, 30,717개 테이블, 580,933개 컬럼 관리</li>
+              <li>메타데이터가 많은 주요 기관에 대한 집중관리</li>
+              <li>공공부문 데이터 거버넌스의 첫걸음은 일관된 메타데이터 표준과 현행화</li>
+            </ul>
+          </div>
+
+          <div class="right-pane">
+            <div class="summary-box">
+              <div class="summary-number">122</div>
+              <div class="summary-text">
+                <div class="label">정보시스템</div>
+                <div class="desc">총 122개 시스템, 177개 DB, 30,717개 테이블, 580,933개 컬럼을 관리</div>
+              </div>
+            </div>
+
+            <div class="panel-title">주요 기관 메타데이터 규모</div>
+            <div class="table-box">
+              <table>
+                <thead>
+                  <tr>
+                    <th>기관</th>
+                    <th>시스템</th>
+                    <th>테이블</th>
+                    <th>컬럼</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>근로복지공단</strong></td>
+                    <td>22</td>
+                    <td>6,730</td>
+                    <td>161,776</td>
+                  </tr>
+                  <tr>
+                    <td><strong>한국산업인력공단</strong></td>
+                    <td>17</td>
+                    <td>6,600</td>
+                    <td>106,407</td>
+                  </tr>
+                  <tr>
+                    <td><strong>한국고용정보원</strong></td>
+                    <td>17</td>
+                    <td>5,504</td>
+                    <td>81,776</td>
+                  </tr>
+                  <tr>
+                    <td><strong>한국산업안전보건공단</strong></td>
+                    <td>11</td>
+                    <td>2,929</td>
+                    <td>59,207</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="slide-foot">
+        <span class="cur">04</span> &nbsp;/&nbsp; 11
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

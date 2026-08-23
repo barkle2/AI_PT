@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 06 — AI 노동법 상담 고도화</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #f8fafc;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 48%, #e2e8f0 100%);
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #2563eb 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(37, 99, 235, 0.18);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #475569;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(120 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #0f4c81;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(57.6 * var(--u));
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      margin-bottom: calc(10 * var(--u));
+    }
+
+    .subtitle {
+      font-size: calc(24 * var(--u));
+      font-weight: 500;
+      color: #334155;
+      letter-spacing: 0.01em;
+      line-height: 1.45;
+      margin-bottom: calc(26 * var(--u));
+    }
+
+    .body-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.02fr 1.18fr;
+      gap: calc(36 * var(--u));
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .left-panel,
+    .right-panel {
+      position: relative;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      border-radius: calc(22 * var(--u));
+      background: linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(239,246,255,0.92) 100%);
+      box-shadow: 0 calc(12 * var(--u)) calc(24 * var(--u)) rgba(15, 23, 42, 0.04);
+      padding: calc(20 * var(--u));
+      overflow: hidden;
+    }
+
+    .left-panel::before,
+    .right-panel::before {
+      content: '';
+      position: absolute;
+      right: calc(-80 * var(--u));
+      top: calc(-50 * var(--u));
+      width: calc(220 * var(--u));
+      height: calc(220 * var(--u));
+      background: radial-gradient(circle, rgba(96, 165, 250, 0.16), rgba(96, 165, 250, 0));
+      pointer-events: none;
+    }
+
+    .panel-label {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      font-size: calc(21.6 * var(--u));
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #0f4c81;
+      margin-bottom: calc(18 * var(--u));
+      padding-bottom: calc(6 * var(--u));
+      border-bottom: calc(3 * var(--u)) solid #60a5fa;
+    }
+
+    .metric-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(16 * var(--u));
+      margin-top: calc(8 * var(--u));
+    }
+
+    .metric {
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      border-radius: calc(16 * var(--u));
+      background: rgba(255,255,255,0.78);
+      padding: calc(18 * var(--u)) calc(14 * var(--u));
+      min-height: calc(120 * var(--u));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-value {
+      font-size: calc(36 * var(--u));
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-name {
+      font-size: calc(19.2 * var(--u));
+      color: #334155;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .metric-note {
+      font-size: calc(14.4 * var(--u));
+      font-weight: 600;
+      color: #0f4c81;
+      letter-spacing: 0.02em;
+      margin-top: calc(8 * var(--u));
+    }
+
+    .support-text {
+      position: relative;
+      z-index: 1;
+      margin-top: calc(18 * var(--u));
+      font-size: calc(21.6 * var(--u));
+      line-height: 1.6;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    .support-text strong {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .table-wrap {
+      position: relative;
+      z-index: 1;
+      margin-top: calc(8 * var(--u));
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      border-radius: calc(16 * var(--u));
+      overflow: hidden;
+      background: rgba(255,255,255,0.8);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      padding: calc(12 * var(--u)) calc(14 * var(--u));
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: linear-gradient(180deg, rgba(239,246,255,0.94) 0%, rgba(224,242,254,0.9) 100%);
+      color: #0f172a;
+      font-size: calc(20.4 * var(--u));
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    th:first-child {
+      width: 34%;
+    }
+
+    td {
+      font-size: calc(18 * var(--u));
+      line-height: 1.48;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    tbody tr:last-child th,
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(50 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #475569;
+    }
+
+    .slide-foot .cur {
+      color: #0f172a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-text">제3차 양성평등위원회</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">04. AI 노동법 상담 고도화</div>
+        <div class="rule"></div>
+        <h1 class="main-title">AI 노동법 상담 서비스 품질 향상을 위한 고도화 추진</h1>
+
+        <div class="body-grid">
+          <div class="left-panel">
+            <div class="panel-label">전문가 검증으로 품질 제고</div>
+
+            <div class="metric-grid">
+              <div class="metric">
+                <div class="metric-value">23명</div>
+                <div class="metric-name">공인노무사 검증 참여</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">4만건</div>
+                <div class="metric-name">기존 답변 검토 대상</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">4개</div>
+                <div class="metric-name">품질 지표</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">정합성</div>
+                <div class="metric-name">실무 반영 강화</div>
+              </div>
+            </div>
+
+            <div class="support-text">
+              <strong>답변 정확도, 환각률, 오류 신고 건수, 전문가 검증 결과</strong>를 기준으로
+              AI 노동법 상담의 신뢰성을 체계적으로 관리
+            </div>
+            <div class="support-text">
+              상담 과정 중 진정서 접수 필요시 상담내용을 요약하여 노동포털로 연계하여 민원인 편의성 제고
+            </div>
+          </div>
+
+          <div class="right-panel">
+            <div class="panel-label">AI 노동법 상담 고도화 분야</div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>분야</th>
+                    <th>주요 상담 내용</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>외국인고용허가제</td>
+                    <td>체류, 취업, 고용허가, 신분 변동 및 법적 요건 안내</td>
+                  </tr>
+                  <tr>
+                    <td>직장 내 괴롭힘</td>
+                    <td>폭언, 따돌림, 성희롱, 신고·조사·구제 절차 안내</td>
+                  </tr>
+                  <tr>
+                    <td>직장 내 성희롱</td>
+                    <td>불쾌한 언행, 제안, 대응 방법 및 법적 절차 설명</td>
+                  </tr>
+                  <tr>
+                    <td>산업재해보상</td>
+                    <td>업무상 재해 인정, 산재 신청, 보상 절차 및 증빙 안내</td>
+                  </tr>
+                  <tr>
+                    <td>퇴직금·연차</td>
+                    <td>계산, 미지급, 연차 사용, 수당 및 보상 관련 법률 안내</td>
+                  </tr>
+                  <tr>
+                    <td>근로자 대표 선임</td>
+                    <td>대표자 선임 절차, 근로조건 보호, 신고·해결 방안</td>
+                  </tr>
+                  <tr>
+                    <td>관할 노동청 안내</td>
+                    <td>사건별 담당 기관, 민원 접수 경로 및 상담 연결 안내</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div class="slide-foot">
+        <span class="cur">06</span> / 11
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 09 — 노동법 자율점검 AI</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #f8fafc;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 48%, #e2e8f0 100%);
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #2563eb 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(37, 99, 235, 0.18);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    .slide-top {
+      position: absolute;
+      top: calc(70 * var(--u));
+      left: calc(90 * var(--u));
+      right: calc(90 * var(--u));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: calc(18 * var(--u));
+    }
+
+    .brand-mark {
+      width: calc(64 * var(--u));
+      height: calc(64 * var(--u));
+      background: url('../고용노동부.png') center/contain no-repeat;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      line-height: 1.15;
+    }
+
+    .brand-text .ko {
+      font-size: calc(26 * var(--u));
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-text .en {
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: #475569;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: calc(2 * var(--u));
+    }
+
+    .venue {
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .venue-text {
+      font-size: calc(20 * var(--u));
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    .slide-body {
+      position: absolute;
+      left: calc(120 * var(--u));
+      right: calc(90 * var(--u));
+      top: calc(190 * var(--u));
+      bottom: calc(120 * var(--u));
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      font-size: calc(22 * var(--u));
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #0f4c81;
+    }
+
+    .rule {
+      width: calc(96 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%);
+      margin: calc(28 * var(--u)) 0 calc(28 * var(--u));
+      border-radius: calc(2 * var(--u));
+    }
+
+    .main-title {
+      font-size: calc(46 * var(--u));
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      margin-bottom: calc(20 * var(--u));
+    }
+
+    .body-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr;
+      gap: calc(34 * var(--u));
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .left-card,
+    .right-card {
+      position: relative;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      border-radius: calc(22 * var(--u));
+      background: linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(239,246,255,0.92) 100%);
+      box-shadow: 0 calc(12 * var(--u)) calc(24 * var(--u)) rgba(15, 23, 42, 0.04);
+      padding: calc(26 * var(--u));
+      overflow: hidden;
+    }
+
+    .left-card::before,
+    .right-card::before {
+      content: '';
+      position: absolute;
+      right: calc(-70 * var(--u));
+      top: calc(-50 * var(--u));
+      width: calc(200 * var(--u));
+      height: calc(200 * var(--u));
+      background: radial-gradient(circle, rgba(96, 165, 250, 0.15), rgba(96, 165, 250, 0));
+      pointer-events: none;
+    }
+
+    .card-label {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      font-size: calc(20 * var(--u));
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #0f4c81;
+      margin-bottom: calc(18 * var(--u));
+      padding-bottom: calc(6 * var(--u));
+      border-bottom: calc(3 * var(--u)) solid #60a5fa;
+    }
+
+    .process-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: calc(14 * var(--u));
+      margin-top: calc(10 * var(--u));
+    }
+
+    .process-item {
+      display: flex;
+      gap: calc(16 * var(--u));
+      align-items: flex-start;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(59,130,246,0.18);
+      border-left: calc(6 * var(--u)) solid #2563eb;
+      border-radius: calc(16 * var(--u));
+      padding: calc(18 * var(--u)) calc(16 * var(--u));
+      box-shadow: 0 calc(8 * var(--u)) calc(16 * var(--u)) rgba(15, 23, 42, 0.03);
+    }
+
+    .step {
+      width: calc(42 * var(--u));
+      height: calc(42 * var(--u));
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: calc(18 * var(--u));
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 calc(8 * var(--u)) calc(14 * var(--u)) rgba(37, 99, 235, 0.18);
+    }
+
+    .step-copy {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: calc(24 * var(--u));
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: calc(4 * var(--u));
+      letter-spacing: -0.01em;
+    }
+
+    .step-copy p {
+      font-size: calc(18 * var(--u));
+      line-height: 1.5;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    .image-panel {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: calc(300 * var(--u));
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(148,163,184,0.42);
+      border-radius: calc(16 * var(--u));
+      padding: calc(16 * var(--u));
+      overflow: hidden;
+    }
+
+    .image-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: calc(12 * var(--u));
+      box-shadow: 0 calc(10 * var(--u)) calc(20 * var(--u)) rgba(15, 23, 42, 0.06);
+    }
+
+    .summary {
+      position: relative;
+      z-index: 1;
+      margin-top: calc(18 * var(--u));
+      font-size: calc(20 * var(--u));
+      line-height: 1.65;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    .summary strong {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(50 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #475569;
+    }
+
+    .slide-foot .cur {
+      color: #0f172a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <header class="slide-top">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="ko">고용노동부</div>
+            <div class="en">Ministry of Employment and Labor</div>
+          </div>
+        </div>
+        <div class="venue">
+          <span class="venue-text">제3차 양성평등위원회</span>
+        </div>
+      </header>
+
+      <main class="slide-body">
+        <div class="eyebrow">06. 행정업무 효율화</div>
+        <div class="rule"></div>
+        <h1 class="main-title">AI가 문서내용을 파악해 법 위반·누락 항목을 빠르게 점검</h1>
+
+        <div class="body-grid">
+          <div class="left-card">
+            <div class="card-label">노동법 자율점검 서비스</div>
+
+            <div class="process-list">
+              <div class="process-item">
+                <div class="step">1</div>
+                <div class="step-copy">
+                  <div class="step-title">서류 업로드</div>
+                  <p>근로계약서, 임금명세서, 취업규칙을 한 번에 검토합니다.</p>
+                </div>
+              </div>
+
+              <div class="process-item">
+                <div class="step">2</div>
+                <div class="step-copy">
+                  <div class="step-title">법령 기준 매칭</div>
+                  <p>필수 기재사항과 위반 여부를 기준에 따라 자동 점검합니다.</p>
+                </div>
+              </div>
+
+              <div class="process-item">
+                <div class="step">3</div>
+                <div class="step-copy">
+                  <div class="step-title">시정안 제시</div>
+                  <p>문제 항목과 개선 방향을 법령 근거와 함께 안내합니다.</p>
+                </div>
+              </div>
+
+            <div class="summary">
+              AI가 서류를 보고 법적 리스크를 조기에 발견해 사용자에게 알려줍니다.
+            </div>              
+            </div>
+          </div>
+
+          <div class="right-card">
+
+            <div class="image-panel">
+              <img src="./노동법위반점검.png" alt="노동법 위반 점검 화면" />
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div class="slide-foot">
+        <span class="cur">09</span> / 11
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

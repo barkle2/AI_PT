@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>슬라이드 11 — 감사합니다</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #f8fafc;
+      font-family: 'Pretendard', 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 48%, #e2e8f0 100%);
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+      --u: calc(min(100vw, calc(100vh * 16 / 9)) / 1920);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(8 * var(--u));
+      background: linear-gradient(180deg, #38bdf8 0%, #2563eb 50%, #38bdf8 100%);
+      box-shadow: 0 0 calc(20 * var(--u)) rgba(37, 99, 235, 0.18);
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+      background-size: calc(80 * var(--u)) calc(80 * var(--u));
+      pointer-events: none;
+    }
+
+    .slide-body {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: calc(24 * var(--u));
+    }
+
+    .thanks {
+      font-size: calc(120 * var(--u));
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #0f172a;
+    }
+
+    .rule {
+      width: calc(100 * var(--u));
+      height: calc(4 * var(--u));
+      background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%);
+      border-radius: calc(2 * var(--u));
+    }
+
+    .sub {
+      font-size: calc(26 * var(--u));
+      letter-spacing: 0.08em;
+      color: #475569;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .slide-foot {
+      position: absolute;
+      left: calc(120 * var(--u));
+      bottom: calc(50 * var(--u));
+      z-index: 2;
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #475569;
+    }
+
+    .slide-foot .cur {
+      color: #0f172a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrap">
+    <div class="slide">
+      <main class="slide-body">
+        <div class="content">
+          <div class="thanks">감사합니다</div>
+          <div class="rule"></div>
+          <div class="sub">Thank You</div>
+        </div>
+      </main>
+
+      <div class="slide-foot">
+        <span class="cur">11</span> / 18
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
